@@ -30,6 +30,7 @@
         "comma-dangle": ["error", "only-multiline"],
         "react/prop-types": "off",
         "react/display-name": "off",
+        "no-console": "off",
         "@typescript-eslint/interface-name-prefix": "off",
         "@typescript-eslint/ban-ts-comment": "error",
         "@typescript-eslint/no-non-null-assertion": "off",
@@ -44,13 +45,8 @@
           2,
           { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
           ],
-        "react/function-component-definition": [
-            2,
-            {
-              "namedComponents": ["arrow-function", "function-declaration"],
-              "unnamedComponents": "arrow-function"
-            }
-          ]
+        "react/prefer-stateless-function": [0, {"ignorePureComponents": "true"}],
+        "react/function-component-definition": [0]
     },
     "ignorePatterns": ["tsconfig.json", "dist/", "module.d.ts", "vite.config.ts"]
 }
