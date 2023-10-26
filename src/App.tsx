@@ -1,10 +1,14 @@
 import './App.css';
-import getItems from './api/apiRequests';
+import ItemsList from './components/ItemsList/ItemsList';
 import Search from './components/Search/Search';
 
 const App = (): JSX.Element => {
-  getItems().then((obj) => console.log(obj));
-  return <Search />;
+  return (
+    <>
+      <Search value={localStorage.getItem('searchInfo') || ''} />
+      <ItemsList value="" />
+    </>
+  );
 };
 
 export default App;
