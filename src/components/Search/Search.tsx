@@ -3,7 +3,7 @@ import './Search.scss';
 import searchIcon from '../../assets/search.svg';
 
 interface SearchProps {
-  clickButton: (value: string) => void;
+  clickSearch: (value: string) => void;
 }
 
 interface StateType {
@@ -13,14 +13,35 @@ interface StateType {
 class Search extends Component<SearchProps> {
   public constructor(props: SearchProps) {
     super(props);
+    this.changeValue = this.changeValue.bind(this);
   }
 
   state: Readonly<StateType> = {
     value: localStorage.getItem('search-value') || '',
   };
 
+  componentDidMount(): void {
+    const { clickSearch } = this.props;
+    const searchvalue = localStorage.getItem('search-value') || '';
+    this.setState({
+      value: searchvalue,
+    });
+    clickSearch(searchvalue.trim());
+  }
+
+  clickButton = (): void => {
+    const { clickSearch } = this.props;
+    const { value } = this.state;
+    localStorage.setItem('search-value', value);
+    clickSearch(value);
+  };
+
+  changeValue = (searchValue: string): void => {
+    console.log(searchValue);
+    this.setState({ value: searchValue });
+  };
+
   render(): React.ReactNode {
-    const { clickButton } = this.props;
     const { value } = this.state;
     return (
       <form className="search">
@@ -29,7 +50,7 @@ class Search extends Component<SearchProps> {
           type="text"
           value={value}
           onChange={(event): void => {
-            this.setState({ value: event.target.value });
+            this.changeValue(event.target.value);
           }}
         />
         <button
@@ -37,7 +58,8 @@ class Search extends Component<SearchProps> {
           aria-label="Search"
           type="submit"
           onClick={(): void => {
-            clickButton(value);
+            console.log(value);
+            this.clickButton();
           }}
         >
           <img className="search__icon" src={searchIcon} alt="search-icon" />
