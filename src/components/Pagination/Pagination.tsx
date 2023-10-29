@@ -1,4 +1,5 @@
 import React from 'react';
+import './Pagination.scss';
 
 interface PaginationType {
   currentPage: number;
@@ -19,14 +20,21 @@ class Pagination extends React.Component<PaginationType> {
     const { currentPage, clickNext, clickPrev } = this.props;
     const disablePrev = this.isDisable();
     return (
-      <div>
+      <div className="pagination">
         <button
+          className="button button__prev"
           type="button"
           onClick={clickPrev}
           disabled={disablePrev}
         >{`<`}</button>
-        <button type="button">{currentPage}</button>
-        <button type="button" onClick={clickNext}>{`>`}</button>
+        <button className="button button__center" type="button">
+          {currentPage}
+        </button>
+        <button
+          className="button button__next"
+          type="button"
+          onClick={clickNext}
+        >{`>`}</button>
       </div>
     );
   }

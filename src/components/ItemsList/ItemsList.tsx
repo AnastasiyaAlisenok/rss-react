@@ -52,6 +52,11 @@ class ItemsList extends Component<ItemListType> {
     const { content, page, loading } = this.state;
     return (
       <>
+        <Pagination
+          currentPage={page}
+          clickNext={this.clickNext}
+          clickPrev={this.clickPrev}
+        />
         <section className="list">
           {loading ? (
             <Loader />
@@ -69,11 +74,6 @@ class ItemsList extends Component<ItemListType> {
             ))
           )}
         </section>
-        <Pagination
-          currentPage={page}
-          clickNext={this.clickNext}
-          clickPrev={this.clickPrev}
-        />
       </>
     );
   }
