@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import ItemsList from './components/ItemsList/ItemsList';
 import Search from './components/Search/Search';
 import { CharacterType } from './types/types';

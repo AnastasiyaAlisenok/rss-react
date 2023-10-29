@@ -10,7 +10,7 @@ interface StateType {
   value: string;
 }
 
-class Search extends Component<SearchProps> {
+class Search extends Component<SearchProps, StateType> {
   public constructor(props: SearchProps) {
     super(props);
     this.changeValue = this.changeValue.bind(this);
