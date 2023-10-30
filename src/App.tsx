@@ -3,10 +3,12 @@ import ItemsList from './components/ItemsList/ItemsList';
 import Search from './components/Search/Search';
 import { CharacterType } from './types/types';
 import filterNames from './api/apiRequests';
+import './App.scss';
 
 interface StateType {
   content: CharacterType[] | undefined;
   loading: boolean;
+  error: boolean;
 }
 
 interface AppType {}
@@ -20,10 +22,10 @@ class App extends React.Component<AppType> {
   state: Readonly<StateType> = {
     content: undefined,
     loading: true,
+    error: false,
   };
 
   clickSearch = (searchValue: string): void => {
-    console.log(searchValue);
     filterNames(searchValue)
       .then((resp) => {
         this.setState({
@@ -31,14 +33,24 @@ class App extends React.Component<AppType> {
           loading: false,
         });
       })
-      .catch((err) => console.log(err));
+      .catch((err: Error) => console.log(err.message));
   };
 
   render(): React.ReactNode {
-    const { content, loading } = this.state;
+    const { content, loading, error } = this.state;
+    if (error) throw new Error();
     return (
       <>
         <Search clickSearch={this.clickSearch} />
+        <button
+          className="button"
+          type="button"
+          onClick={(): void => {
+            this.setState({ error: true });
+          }}
+        >
+          Get error
+        </button>
         <ItemsList content={content} loading={loading} />
       </>
     );
