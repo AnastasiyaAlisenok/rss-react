@@ -3,6 +3,11 @@
   justify-content: space-evenly;
   flex-wrap: wrap;
   row-gap: 50px;
+  &__not-found {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #fff;
+  }
   &__card {
     width: 52rem;
     border: 2px solid #fff;

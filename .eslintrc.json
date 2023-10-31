@@ -70,7 +70,8 @@
             2,
             "never"
         ],
-        "class-methods-use-this": "off"
+        "class-methods-use-this": "off",
+        "no-nested-ternary": "off"
     },
     "ignorePatterns": [
         "tsconfig.json",

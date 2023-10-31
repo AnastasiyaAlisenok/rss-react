@@ -17,8 +17,7 @@ class ItemsList extends Component<ItemListType> {
         <section className="list">
           {loading ? (
             <Loader />
-          ) : (
-            content &&
+          ) : content?.length ? (
             content.map((character) => (
               <ItemCard
                 key={character.id}
@@ -29,6 +28,8 @@ class ItemsList extends Component<ItemListType> {
                 episode={character.species}
               />
             ))
+          ) : (
+            <p className="list__not-found">Nothing found!</p>
           )}
         </section>
       </ErrorBoundary>
