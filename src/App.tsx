@@ -1,60 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ItemsList from './components/ItemsList/ItemsList';
 import Search from './components/Search/Search';
 import { CharacterType } from './types/types';
 import filterNames from './api/apiRequests';
 import './App.scss';
 
-interface StateType {
-  content: CharacterType[] | undefined;
-  loading: boolean;
-  error: boolean;
-}
+const App = (): JSX.Element => {
+  const [content, setContent] = useState<CharacterType[] | undefined>(
+    undefined
+  );
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-interface AppType {}
-
-class App extends React.Component<AppType> {
-  constructor(props: AppType) {
-    super(props);
-    this.clickSearch = this.clickSearch.bind(this);
-  }
-
-  state: Readonly<StateType> = {
-    content: undefined,
-    loading: true,
-    error: false,
-  };
-
-  clickSearch = (searchValue: string): void => {
+  const clickSearch = (searchValue: string): void => {
     filterNames(searchValue)
       .then((resp) => {
-        this.setState({
-          content: resp.results,
-          loading: false,
-        });
+        setContent(resp.results);
+        setLoading(false);
       })
       .catch((err: Error) => console.log(err.message));
   };
 
-  render(): React.ReactNode {
-    const { content, loading, error } = this.state;
-    if (error) throw new Error();
-    return (
-      <>
-        <Search clickSearch={this.clickSearch} />
-        <button
-          className="button"
-          type="button"
-          onClick={(): void => {
-            this.setState({ error: true });
-          }}
-        >
-          Get error
-        </button>
-        <ItemsList content={content} loading={loading} />
-      </>
-    );
-  }
-}
+  if (error) throw new Error();
+  return (
+    <>
+      <Search clickSearch={clickSearch} />
+      <button
+        className="button"
+        type="button"
+        onClick={(): void => {
+          setError(true);
+        }}
+      >
+        Get error
+      </button>
+      <ItemsList content={content} loading={loading} />
+    </>
+  );
+};
 
 export default App;
