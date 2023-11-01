@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ItemsList from './components/ItemsList/ItemsList';
 import Search from './components/Search/Search';
 import { CharacterType } from './types/types';
@@ -20,6 +20,12 @@ const App = (): JSX.Element => {
       })
       .catch((err: Error) => console.log(err.message));
   };
+
+  useEffect(() => {
+    const value = localStorage.getItem('search-value') || '';
+    // setValue(value);
+    clickSearch(value.trim());
+  });
 
   if (error) throw new Error();
   return (
