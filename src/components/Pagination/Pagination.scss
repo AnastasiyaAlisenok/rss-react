@@ -1,0 +1,27 @@
+.paginate {
+  width: 30rem;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  margin-bottom: 60px;
+  &__btn {
+    width: 95px;
+    padding: 5px;
+    margin-bottom: 0;
+    border: none;
+    &:hover {
+      transform: scale(1.05);
+    }
+    &:disabled {
+      pointer-events: none;
+    }
+  }
+  &__page {
+    width: 95px;
+    background-color: #fff;
+    font-size: 20px;
+    border-radius: 5px;
+    text-align: center;
+    padding: 5px 0;
+  }
+}
