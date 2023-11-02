@@ -1,12 +1,12 @@
-import React, { Component, Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import ItemCard from '../ItemCard/ItemCard';
-import { CharacterType } from '../../types/types';
+import { ProductType } from '../../types/types';
 import Loader from '../Loader/Loader';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoudary';
 import Pagination from '../Pagination/Pagination';
 
 interface ItemListType {
-  content: CharacterType[] | undefined;
+  content: ProductType[] | undefined;
   loading: boolean;
   page: number;
   setPage: Dispatch<SetStateAction<number>>;
@@ -29,14 +29,15 @@ const ItemsList: React.FC<ItemListType> = ({
           <>
             <Pagination page={page} setPage={setPage} lastPage={lastPage} />
             <div className="list">
-              {content.map((character) => (
+              {content.map((product) => (
                 <ItemCard
-                  key={character.id}
-                  src={character.image}
-                  name={character.name}
-                  status={character.status}
-                  planet={character.location.name}
-                  episode={character.species}
+                  key={product.id}
+                  src={product.images[0]}
+                  title={product.title}
+                  description={product.description}
+                  price={product.price}
+                  rating={product.rating}
+                  brand={product.brand}
                 />
               ))}
             </div>

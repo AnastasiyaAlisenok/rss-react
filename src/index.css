@@ -14,3 +14,7 @@ body {
   background-color: #3b3b3b;
   box-sizing: border-box;
 }
+
+p {
+  margin: 0;
+}

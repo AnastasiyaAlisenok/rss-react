@@ -2,13 +2,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 import './App.scss';
 import ItemsList from './components/ItemsList/ItemsList';
 import Search from './components/Search/Search';
-import { CharacterType } from './types/types';
+import { ProductType } from './types/types';
 import filterNames from './api/apiRequests';
 
 const App = (): JSX.Element => {
-  const [content, setContent] = useState<CharacterType[] | undefined>(
-    undefined
-  );
+  const [content, setContent] = useState<ProductType[] | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
@@ -18,9 +16,10 @@ const App = (): JSX.Element => {
     (searchValue: string, pageNumber: number): void => {
       filterNames(searchValue, pageNumber)
         .then((resp) => {
-          setContent(resp.results);
+          setContent(resp.products);
           setLoading(false);
-          setLastPage(resp.info.pages);
+          const pageLast = Math.ceil(resp.total / 8);
+          setLastPage(pageLast);
         })
         .catch((err: Error) => console.log(err.message));
     },
@@ -30,16 +29,18 @@ const App = (): JSX.Element => {
   if (error) throw new Error();
   return (
     <>
-      <Search clickSearch={clickSearch} page={page} setPage={setPage} />
-      <button
-        className="button"
-        type="button"
-        onClick={(): void => {
-          setError(true);
-        }}
-      >
-        Get error
-      </button>
+      <div className="container">
+        <Search clickSearch={clickSearch} page={page} setPage={setPage} />
+        <button
+          className="button"
+          type="button"
+          onClick={(): void => {
+            setError(true);
+          }}
+        >
+          Get error
+        </button>
+      </div>
       <ItemsList
         content={content}
         loading={loading}
