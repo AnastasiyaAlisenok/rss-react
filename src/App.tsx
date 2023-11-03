@@ -11,26 +11,32 @@ const App = (): JSX.Element => {
   const [error, setError] = useState(false);
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState<null | number>();
+  const [limit, setLimit] = useState(4);
 
   const clickSearch = useCallback(
-    (searchValue: string, pageNumber: number): void => {
-      filterNames(searchValue, pageNumber)
+    (searchValue: string, pageNumber: number, limitValue: number): void => {
+      filterNames(searchValue, pageNumber, limitValue)
         .then((resp) => {
           setContent(resp.products);
           setLoading(false);
-          const pageLast = Math.ceil(resp.total / 8);
+          const pageLast = Math.ceil(resp.total / limit);
           setLastPage(pageLast);
         })
         .catch((err: Error) => console.log(err.message));
     },
-    []
+    [limit]
   );
 
   if (error) throw new Error();
   return (
     <>
       <div className="container">
-        <Search clickSearch={clickSearch} page={page} setPage={setPage} />
+        <Search
+          clickSearch={clickSearch}
+          page={page}
+          setPage={setPage}
+          limit={limit}
+        />
         <button
           className="button"
           type="button"
@@ -47,6 +53,7 @@ const App = (): JSX.Element => {
         page={page}
         setPage={setPage}
         lastPage={lastPage}
+        setLimit={setLimit}
       />
     </>
   );

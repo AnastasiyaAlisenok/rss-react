@@ -1,5 +1,5 @@
 .paginate {
-  width: 30rem;
+  width: 41rem;
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
@@ -23,5 +23,9 @@
     border-radius: 5px;
     text-align: center;
     padding: 5px 0;
+  }
+
+  &__select {
+    width: 95px;
   }
 }

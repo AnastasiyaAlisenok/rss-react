@@ -10,6 +10,7 @@ interface ItemListType {
   loading: boolean;
   page: number;
   setPage: Dispatch<SetStateAction<number>>;
+  setLimit: Dispatch<SetStateAction<number>>;
   lastPage: number | null | undefined;
 }
 
@@ -19,6 +20,7 @@ const ItemsList: React.FC<ItemListType> = ({
   page,
   setPage,
   lastPage,
+  setLimit,
 }): JSX.Element => {
   return (
     <ErrorBoundary>
@@ -27,7 +29,12 @@ const ItemsList: React.FC<ItemListType> = ({
           <Loader />
         ) : content?.length ? (
           <>
-            <Pagination page={page} setPage={setPage} lastPage={lastPage} />
+            <Pagination
+              page={page}
+              setPage={setPage}
+              lastPage={lastPage}
+              setLimit={setLimit}
+            />
             <div className="list">
               {content.map((product) => (
                 <ItemCard

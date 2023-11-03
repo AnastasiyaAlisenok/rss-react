@@ -5,8 +5,9 @@ import searchIcon from '../../assets/search.svg';
 const firstPage = 1;
 
 interface SearchProps {
-  clickSearch: (value: string, page: number) => void;
+  clickSearch: (value: string, page: number, limit: number) => void;
   page: number;
+  limit: number;
   setPage: Dispatch<SetStateAction<number>>;
 }
 
@@ -14,6 +15,7 @@ const Search: React.FC<SearchProps> = ({
   clickSearch,
   page,
   setPage,
+  limit,
 }): JSX.Element => {
   const [value, setValue] = useState(
     localStorage.getItem('search-value') || ''
@@ -21,8 +23,8 @@ const Search: React.FC<SearchProps> = ({
 
   useEffect(() => {
     const searchvalue = localStorage.getItem('search-value') || '';
-    clickSearch(searchvalue.trim(), page);
-  }, [page, clickSearch]);
+    clickSearch(searchvalue.trim(), page, limit);
+  }, [page, clickSearch, limit]);
 
   const changeValue = (searchValue: string): void => {
     setValue(searchValue);
@@ -31,7 +33,7 @@ const Search: React.FC<SearchProps> = ({
   const clickButton = (searchValue: string): void => {
     setPage(firstPage);
     localStorage.setItem('search-value', searchValue);
-    clickSearch(searchValue.trim(), firstPage);
+    clickSearch(searchValue.trim(), firstPage, limit);
   };
 
   return (
