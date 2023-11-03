@@ -1,22 +1,16 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Search.scss';
 import searchIcon from '../../assets/search.svg';
+import { ContentContext } from '../../hoc/ContentProvider';
 
 const firstPage = 1;
 
 interface SearchProps {
   clickSearch: (value: string, page: number, limit: number) => void;
-  page: number;
-  limit: number;
-  setPage: Dispatch<SetStateAction<number>>;
 }
 
-const Search: React.FC<SearchProps> = ({
-  clickSearch,
-  page,
-  setPage,
-  limit,
-}): JSX.Element => {
+const Search: React.FC<SearchProps> = ({ clickSearch }): JSX.Element => {
+  const { page, limit, setNewPage } = useContext(ContentContext);
   const [value, setValue] = useState(
     localStorage.getItem('search-value') || ''
   );
@@ -31,7 +25,7 @@ const Search: React.FC<SearchProps> = ({
   };
 
   const clickButton = (searchValue: string): void => {
-    setPage(firstPage);
+    setNewPage(firstPage);
     localStorage.setItem('search-value', searchValue);
     clickSearch(searchValue.trim(), firstPage, limit);
   };

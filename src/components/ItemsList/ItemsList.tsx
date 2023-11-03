@@ -1,54 +1,49 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 import ItemCard from '../ItemCard/ItemCard';
-import { ProductType } from '../../types/types';
 import Loader from '../Loader/Loader';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoudary';
 import Pagination from '../Pagination/Pagination';
+import { getDetailInfo } from '../../api/apiRequests';
+import { ContentContext } from '../../hoc/ContentProvider';
 
-interface ItemListType {
-  content: ProductType[] | undefined;
-  loading: boolean;
-  page: number;
-  setPage: Dispatch<SetStateAction<number>>;
-  setLimit: Dispatch<SetStateAction<number>>;
-  lastPage: number | null | undefined;
-}
-
-const ItemsList: React.FC<ItemListType> = ({
-  content,
-  loading,
-  page,
-  setPage,
-  lastPage,
-  setLimit,
-}): JSX.Element => {
+const ItemsList = (): JSX.Element => {
+  const { products, setNewProduct, loading } = useContext(ContentContext);
+  const clickCard = (id: number): void => {
+    getDetailInfo(id).then((obj) => {
+      setNewProduct(obj);
+    });
+  };
   return (
     <ErrorBoundary>
       <section>
         {loading ? (
           <Loader />
-        ) : content?.length ? (
-          <>
-            <Pagination
-              page={page}
-              setPage={setPage}
-              lastPage={lastPage}
-              setLimit={setLimit}
-            />
+        ) : products?.length ? (
+          <div className="">
+            <Pagination />
             <div className="list">
-              {content.map((product) => (
-                <ItemCard
-                  key={product.id}
-                  src={product.images[0]}
-                  title={product.title}
-                  description={product.description}
-                  price={product.price}
-                  rating={product.rating}
-                  brand={product.brand}
-                />
-              ))}
+              {products &&
+                products.map((product) => (
+                  <ItemCard
+                    key={product.id}
+                    id={product.id}
+                    src={product.images[0]}
+                    title={product.title}
+                    description={product.description}
+                    price={product.price}
+                    rating={product.rating}
+                    brand={product.brand}
+                    clickCard={clickCard}
+                  />
+                ))}
             </div>
-          </>
+          </div>
         ) : (
           <p className="list__not-found">Nothing found!</p>
         )}

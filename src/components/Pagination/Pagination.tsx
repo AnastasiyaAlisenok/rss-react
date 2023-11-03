@@ -1,27 +1,18 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { useContext } from 'react';
 import './Pagination.scss';
+import { ContentContext } from '../../hoc/ContentProvider';
 
 const firstPage = 1;
 
-interface PaginationTypes {
-  page: number;
-  setPage: Dispatch<SetStateAction<number>>;
-  lastPage: number | null | undefined;
-  setLimit: Dispatch<SetStateAction<number>>;
-}
-
-const Pagination: React.FC<PaginationTypes> = ({
-  page,
-  setPage,
-  lastPage,
-  setLimit,
-}): JSX.Element => {
+const Pagination = (): JSX.Element => {
+  const { page, setNewPage, setNewLimit, lastPage } =
+    useContext(ContentContext);
   const clickPrev = (): void => {
-    setPage(page - 1);
+    setNewPage(page - 1);
   };
 
   const clickNext = (): void => {
-    setPage(page + 1);
+    setNewPage(page + 1);
   };
 
   const isDisableFirstPage = (): boolean => {
@@ -56,7 +47,7 @@ const Pagination: React.FC<PaginationTypes> = ({
       <select
         className="paginate__select"
         defaultValue="4"
-        onChange={(event): void => setLimit(Number(event.target.value))}
+        onChange={(event): void => setNewLimit(Number(event.target.value))}
       >
         <option value="4">4</option>
         <option value="8">8</option>
