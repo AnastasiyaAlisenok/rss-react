@@ -1,12 +1,12 @@
 import { useContext } from 'react';
 import './Pagination.scss';
-import { Link, NavLink, useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { ContentContext } from '../../hoc/ContentProvider';
 
 const firstPage = 1;
 
 const Pagination = (): JSX.Element => {
-  const { page, setNewPage, setNewLimit, lastPage } =
+  const { page, setNewPage, setNewLimit, lastPage, limit } =
     useContext(ContentContext);
   const { pageNumber } = useParams();
   const clickPrev = (): void => {
@@ -52,7 +52,7 @@ const Pagination = (): JSX.Element => {
       </NavLink>
       <select
         className="paginate__select"
-        defaultValue="4"
+        value={limit}
         onChange={(event): void => setNewLimit(Number(event.target.value))}
       >
         <option value="4">4</option>

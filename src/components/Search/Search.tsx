@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './Search.scss';
-import { useParams } from 'react-router-dom';
+import { useParams, NavLink, useNavigate } from 'react-router-dom';
 import searchIcon from '../../assets/search.svg';
 import { ContentContext } from '../../hoc/ContentProvider';
 
@@ -17,6 +17,7 @@ const Search: React.FC<SearchProps> = ({ clickSearch }): JSX.Element => {
   );
 
   const { pageNumber } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
@@ -52,6 +53,7 @@ const Search: React.FC<SearchProps> = ({ clickSearch }): JSX.Element => {
         onClick={(e): void => {
           e.preventDefault();
           clickButton(value);
+          navigate('../page=1');
         }}
       >
         <img className="search__icon" src={searchIcon} alt="search-icon" />
