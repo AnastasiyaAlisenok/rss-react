@@ -23,7 +23,7 @@ const Search: React.FC<SearchProps> = ({ clickSearch }): JSX.Element => {
     const searchvalue = localStorage.getItem('search-value') || '';
     clickSearch(searchvalue.trim(), Number(pageNumber), limit);
     if (pageNumber) setNewPage(Number(pageNumber));
-  }, [pageNumber, clickSearch, limit, page]);
+  }, [clickSearch, limit, page]);
 
   const changeValue = (searchValue: string): void => {
     setValue(searchValue);
