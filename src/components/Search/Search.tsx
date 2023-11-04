@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './Search.scss';
-import { useParams, NavLink, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import searchIcon from '../../assets/search.svg';
 import { ContentContext } from '../../hoc/ContentProvider';
 
