@@ -61,7 +61,7 @@ const DetailBlock = (): JSX.Element => {
             </div>
           </div>
           <button
-            className="detail__overley"
+            className="detail__overlay"
             type="button"
             aria-label=" "
             onClick={(): void => navigate(-1)}
