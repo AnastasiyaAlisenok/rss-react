@@ -1,25 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {
-  LoaderFunction,
-  Outlet,
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './DetailBlock.scss';
 import { ContentContext } from '../../hoc/ContentProvider';
 import { getDetailInfo } from '../../api/apiRequests';
-import { ProductType } from '../../types/types';
 import Loader from '../Loader/Loader';
-
-type ParamsType = {
-  id: number;
-};
-
-/* export const detailLoader = async ({request, params}) => {
-  console.log({request, params})
-  const data = await getDetailInfo(params.id);
-  return data;
-}; */
 
 const DetailBlock = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
