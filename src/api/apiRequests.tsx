@@ -16,6 +16,9 @@ export default async function filterNames(
   ).json();
 }
 
-export const getDetailInfo = async (id: number): Promise<ProductType> => {
-  return (await fetch(`${API_URL}/${id}`)).json();
+export const getDetailInfo = async (
+  id: number,
+  page: number
+): Promise<ProductType> => {
+  return (await fetch(`${API_URL}/${id}?page=${page}`)).json();
 };

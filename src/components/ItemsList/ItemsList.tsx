@@ -1,49 +1,42 @@
-import React, {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import React, { useContext } from 'react';
+import { Link, Outlet, NavLink, useParams } from 'react-router-dom';
 import ItemCard from '../ItemCard/ItemCard';
 import Loader from '../Loader/Loader';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoudary';
 import Pagination from '../Pagination/Pagination';
-import { getDetailInfo } from '../../api/apiRequests';
 import { ContentContext } from '../../hoc/ContentProvider';
 
 const ItemsList = (): JSX.Element => {
-  const { products, setNewProduct, loading } = useContext(ContentContext);
-  const clickCard = (id: number): void => {
-    getDetailInfo(id).then((obj) => {
-      setNewProduct(obj);
-    });
-  };
+  const { products, loading, page } = useContext(ContentContext);
   return (
     <ErrorBoundary>
-      <section>
+      <section className="list-container">
         {loading ? (
           <Loader />
         ) : products?.length ? (
-          <div className="">
+          <>
             <Pagination />
             <div className="list">
               {products &&
                 products.map((product) => (
-                  <ItemCard
+                  <NavLink
                     key={product.id}
-                    id={product.id}
-                    src={product.images[0]}
-                    title={product.title}
-                    description={product.description}
-                    price={product.price}
-                    rating={product.rating}
-                    brand={product.brand}
-                    clickCard={clickCard}
-                  />
+                    to={`../frontpage=${page}&details=${product.id}`}
+                  >
+                    <ItemCard
+                      key={product.id}
+                      id={product.id}
+                      src={product.images[0]}
+                      title={product.title}
+                      description={product.description}
+                      price={product.price}
+                      rating={product.rating}
+                      brand={product.brand}
+                    />
+                  </NavLink>
                 ))}
             </div>
-          </div>
+          </>
         ) : (
           <p className="list__not-found">Nothing found!</p>
         )}

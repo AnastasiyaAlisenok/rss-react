@@ -4,4 +4,7 @@
   left: 50%;
   width: 80px;
   height: 80px;
+  .detail & {
+    left: 75%;
+  }
 }

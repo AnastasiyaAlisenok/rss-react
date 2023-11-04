@@ -29,7 +29,7 @@ export const ContentContext = createContext<ContentContextProps>({
   setNewLimit: () => {},
   lastPage: null,
   setNewLastPage: () => {},
-  loading: false,
+  loading: true,
   setLoading: () => {},
   product: undefined,
   setNewProduct: () => {},
@@ -84,7 +84,7 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
       product,
       setNewProduct,
     };
-  }, [page, limit, products]);
+  }, [page, limit, products, loading, product]);
 
   return (
     <ContentContext.Provider value={value}>{children}</ContentContext.Provider>

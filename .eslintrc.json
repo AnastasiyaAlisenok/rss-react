@@ -71,7 +71,8 @@
             "never"
         ],
         "class-methods-use-this": "off",
-        "no-nested-ternary": "off"
+        "no-nested-ternary": "off",
+        "no-param-reassign": "off"
     },
     "ignorePatterns": [
         "tsconfig.json",

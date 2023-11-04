@@ -10,11 +10,15 @@ body {
 
 #root {
   width: 100%;
-  padding: 50px 5%;
   background-color: #3b3b3b;
   box-sizing: border-box;
 }
 
 p {
   margin: 0;
+}
+
+a {
+  text-decoration: none;
+  display: block;
 }

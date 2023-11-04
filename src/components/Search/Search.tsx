@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './Search.scss';
+import { useParams } from 'react-router-dom';
 import searchIcon from '../../assets/search.svg';
 import { ContentContext } from '../../hoc/ContentProvider';
 
@@ -10,15 +11,19 @@ interface SearchProps {
 }
 
 const Search: React.FC<SearchProps> = ({ clickSearch }): JSX.Element => {
-  const { page, limit, setNewPage } = useContext(ContentContext);
+  const { page, limit, setNewPage, setLoading } = useContext(ContentContext);
   const [value, setValue] = useState(
     localStorage.getItem('search-value') || ''
   );
 
+  const { pageNumber } = useParams();
+
   useEffect(() => {
+    setLoading(true);
     const searchvalue = localStorage.getItem('search-value') || '';
-    clickSearch(searchvalue.trim(), page, limit);
-  }, [page, clickSearch, limit]);
+    clickSearch(searchvalue.trim(), Number(pageNumber), limit);
+    if (pageNumber) setNewPage(Number(pageNumber));
+  }, [pageNumber, clickSearch, limit, page]);
 
   const changeValue = (searchValue: string): void => {
     setValue(searchValue);

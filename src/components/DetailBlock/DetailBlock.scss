@@ -1,29 +1,66 @@
 .detail {
-  width: 50%;
-  padding: 20px;
-  border: 2px solid #fff;
-  color: #fff;
-  &__title {
-    font-size: 3.6rem;
-    text-align: center;
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  background-color: #fff;
+  color: #404040;
+  z-index: 2;
+  transition: 0.3s;
+  &-block {
+    width: 100%;
+    padding: 20px;
+    &__close-btn {
+      width: 100%;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 30px;
+      font-size: 20px;
+      color: #fff;
+      background-color: #3f3f3f;
+      cursor: pointer;
+      &:hover {
+        background-color: #656464;
+        transition: 0.3s linear;
+      }
+    }
+    &__img {
+      width: 300px;
+      display: block;
+      margin: 0 auto;
+    }
+    &__title {
+      font-size: 2.8rem;
+      text-align: center;
+    }
+    &__price {
+      font-size: 2.6rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    &__rating,
+    &__brand {
+      font-size: 1.8rem;
+      text-align: center;
+      margin-bottom: 20px;
+      color: #3f3f3f;
+    }
+    &__text {
+      margin-top: 30px;
+      font-size: 1.8rem;
+      text-align: justify;
+      color: #3f3f3f;
+    }
   }
-  &__price {
-    font-size: 4rem;
-    font-weight: 700;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  &__rating,
-  &__brand {
-    font-size: 3rem;
-    text-align: center;
-    margin-bottom: 20px;
-    color: #cecdcd;
-  }
-  &__text {
-    margin-top: 30px;
-    font-size: 3rem;
-    text-align: justify;
-    color: #cecdcd;
+
+  &__overley {
+    cursor: pointer;
+    position: fixed;
+    transform: translate(-100%);
+    min-width: 100%;
+    height: 100%;
+    background-color: #3f3f3fd2;
+    z-index: 1;
   }
 }

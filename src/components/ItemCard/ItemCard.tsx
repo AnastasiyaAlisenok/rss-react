@@ -9,7 +9,6 @@ interface ItemCardProps {
   price: number;
   rating: number;
   brand: string;
-  clickCard: (id: number) => void;
 }
 
 const ItemCard: React.FC<ItemCardProps> = ({
@@ -20,18 +19,9 @@ const ItemCard: React.FC<ItemCardProps> = ({
   price,
   rating,
   brand,
-  clickCard,
 }): JSX.Element => {
   return (
-    <button
-      id={`${id}`}
-      type="button"
-      className="list__card"
-      onClick={(event: React.MouseEvent<HTMLButtonElement>): void => {
-        const idCard = Number((event.currentTarget as HTMLButtonElement).id);
-        clickCard(idCard);
-      }}
-    >
+    <button id={`${id}`} type="button" className="list__card">
       <img className="list__card-img" src={src} alt="item-img" />
       <div className="list__card-content">
         <h2 className="list__card-title">{title}</h2>

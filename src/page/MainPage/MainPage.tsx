@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useContext } from 'react';
+import { Outlet } from 'react-router-dom';
 import ItemsList from '../../components/ItemsList/ItemsList';
 import Search from '../../components/Search/Search';
 import filterNames from '../../api/apiRequests';
@@ -11,6 +12,7 @@ const MainPage = (): JSX.Element => {
 
   const clickSearch = useCallback(
     (searchValue: string, pageNumber: number, limitValue: number): void => {
+      if (!pageNumber) pageNumber = 1;
       filterNames(searchValue, pageNumber, limitValue)
         .then((resp) => {
           setNewProducts(resp.products);
@@ -25,21 +27,24 @@ const MainPage = (): JSX.Element => {
 
   if (error) throw new Error();
   return (
-    <>
-      <div className="container">
-        <Search clickSearch={clickSearch} />
-        <button
-          className="button"
-          type="button"
-          onClick={(): void => {
-            setError(true);
-          }}
-        >
-          Get error
-        </button>
+    <div className="page">
+      <div className="page__container">
+        <div className="container">
+          <Search clickSearch={clickSearch} />
+          <button
+            className="button"
+            type="button"
+            onClick={(): void => {
+              setError(true);
+            }}
+          >
+            Get error
+          </button>
+        </div>
+        <ItemsList />
       </div>
-      <ItemsList />
-    </>
+      <Outlet />
+    </div>
   );
 };
 
