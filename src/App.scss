@@ -1,0 +1,30 @@
+.container {
+  width: 41rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin: 0 auto;
+  margin-bottom: 40px;
+}
+.button {
+  cursor: pointer;
+  position: relative;
+  width: 10rem;
+  display: block;
+  margin: 0 auto;
+  padding: 15px;
+  font-size: 12px;
+  border-radius: 5px;
+  &:hover {
+    background-color: #c0bebe;
+  }
+}
+
+.page {
+  width: 100%;
+  display: flex;
+  &__container {
+    width: 100%;
+    padding: 50px 0;
+  }
+}
