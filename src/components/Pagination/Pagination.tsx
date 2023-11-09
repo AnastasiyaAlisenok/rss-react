@@ -12,14 +12,16 @@ const Pagination = (): JSX.Element => {
   const navigation = useNavigate();
   const clickPrev = (): void => {
     setNewPage(page - 1);
+    navigation(`../page=${page - 1}`);
   };
 
   const clickNext = (): void => {
     setNewPage(page + 1);
+    navigation(`../page=${page + 1}`);
   };
 
   const isDisableFirstPage = (): boolean => {
-    if (page === firstPage) {
+    if (page === firstPage || Number(pageNumber) === firstPage) {
       return true;
     }
     return false;
@@ -34,23 +36,19 @@ const Pagination = (): JSX.Element => {
 
   return (
     <div className="paginate">
-      <NavLink to={`../page=${page - 1}`}>
-        <button
-          className="button paginate__btn"
-          type="button"
-          onClick={clickPrev}
-          disabled={isDisableFirstPage()}
-        >{`<`}</button>
-      </NavLink>
+      <button
+        className="button paginate__btn"
+        type="button"
+        onClick={clickPrev}
+        disabled={isDisableFirstPage()}
+      >{`<`}</button>
       <div className="paginate__page">{pageNumber || page}</div>
-      <NavLink to={`../page=${page + 1}`}>
-        <button
-          className="button paginate__btn"
-          type="button"
-          onClick={clickNext}
-          disabled={isDisableLastPage()}
-        >{`>`}</button>
-      </NavLink>
+      <button
+        className="button paginate__btn"
+        type="button"
+        onClick={clickNext}
+        disabled={isDisableLastPage()}
+      >{`>`}</button>
       <select
         className="paginate__select"
         value={limit}
