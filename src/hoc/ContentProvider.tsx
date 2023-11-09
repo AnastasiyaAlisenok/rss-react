@@ -18,6 +18,8 @@ interface ContentContextProps {
   setLoading: (value: boolean) => void;
   product: ProductType | undefined;
   setNewProduct: (newProduct: ProductType) => void;
+  searchValue: string;
+  setNewSearchValue: (newValue: string) => void;
 }
 
 export const ContentContext = createContext<ContentContextProps>({
@@ -33,6 +35,8 @@ export const ContentContext = createContext<ContentContextProps>({
   setLoading: () => {},
   product: undefined,
   setNewProduct: () => {},
+  searchValue: localStorage.getItem('search-value') || '',
+  setNewSearchValue: () => {},
 });
 
 export const ContentProvider: React.FC<ContentProviderProps> = ({
@@ -44,6 +48,9 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
   const [lastPage, setLastPage] = useState<number>();
   const [loading, setLoadingPage] = useState(false);
   const [product, setProduct] = useState<ProductType>();
+  const [searchValue, setSearchValue] = useState(
+    localStorage.getItem('search-value') || ''
+  );
 
   const setNewProducts = (newProducts: ProductType[]): void => {
     setProducts(newProducts);
@@ -69,6 +76,10 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
     setProduct(newProduct);
   };
 
+  const setNewSearchValue = (newValue: string): void => {
+    setSearchValue(newValue);
+  };
+
   const value = useMemo(() => {
     return {
       products,
@@ -83,8 +94,10 @@ export const ContentProvider: React.FC<ContentProviderProps> = ({
       setLoading,
       product,
       setNewProduct,
+      searchValue,
+      setNewSearchValue,
     };
-  }, [page, limit, products, loading, product]);
+  }, [page, limit, products, loading, product, searchValue]);
 
   return (
     <ContentContext.Provider value={value}>{children}</ContentContext.Provider>

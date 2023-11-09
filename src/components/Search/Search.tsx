@@ -11,10 +11,14 @@ interface SearchProps {
 }
 
 const Search: React.FC<SearchProps> = ({ clickSearch }): JSX.Element => {
-  const { page, limit, setNewPage, setLoading } = useContext(ContentContext);
-  const [value, setValue] = useState(
-    localStorage.getItem('search-value') || ''
-  );
+  const {
+    page,
+    limit,
+    setNewPage,
+    setLoading,
+    searchValue,
+    setNewSearchValue,
+  } = useContext(ContentContext);
 
   const { pageNumber } = useParams();
   const navigate = useNavigate();
@@ -26,14 +30,15 @@ const Search: React.FC<SearchProps> = ({ clickSearch }): JSX.Element => {
     if (pageNumber) setNewPage(Number(pageNumber));
   }, [clickSearch, limit, page]);
 
-  const changeValue = (searchValue: string): void => {
-    setValue(searchValue);
+  const changeValue = (newValue: string): void => {
+    setNewSearchValue(newValue);
   };
 
-  const clickButton = (searchValue: string): void => {
+  const clickButton = (newValue: string): void => {
     setNewPage(firstPage);
-    localStorage.setItem('search-value', searchValue);
-    clickSearch(searchValue.trim(), firstPage, limit);
+    localStorage.setItem('search-value', newValue);
+    setNewSearchValue(newValue);
+    clickSearch(newValue.trim(), firstPage, limit);
   };
 
   return (
@@ -41,7 +46,7 @@ const Search: React.FC<SearchProps> = ({ clickSearch }): JSX.Element => {
       <input
         className="search__input"
         type="text"
-        value={value}
+        value={searchValue}
         onChange={(event): void => {
           changeValue(event.target.value);
         }}
@@ -52,7 +57,7 @@ const Search: React.FC<SearchProps> = ({ clickSearch }): JSX.Element => {
         type="submit"
         onClick={(e): void => {
           e.preventDefault();
-          clickButton(value);
+          clickButton(searchValue);
           navigate('../page=1');
         }}
       >
