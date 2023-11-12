@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import MainPage from './page/MainPage/MainPage';
 import DetailBlock from './components/DetailBlock/DetailBlock';
+import ErrorPage from './components/ErrorPage/ErrorPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -15,6 +16,7 @@ const router = createBrowserRouter(
         <Route path="frontpage=:page&details=:id" element={<DetailBlock />} />
       </Route>
       <Route path="/page=:pageNumber" element={<MainPage />} />
+      <Route path="/*" element={<ErrorPage />} />
     </>
   )
 );
