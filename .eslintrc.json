@@ -77,6 +77,7 @@
     "ignorePatterns": [
         "tsconfig.json",
         "dist/",
+        "coverage/",
         "module.d.ts",
         "vite.config.ts",
         "babel.config.js",

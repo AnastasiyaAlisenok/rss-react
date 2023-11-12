@@ -12,7 +12,8 @@
     "format:fix": "npx prettier --write src/",
     "pret:check": "npx prettier --check src/",
     "prepare": "husky install",
-    "test": "jest"
+    "test": "jest",
+    "coverage": "npx jest --coverage"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^6.1.4",
