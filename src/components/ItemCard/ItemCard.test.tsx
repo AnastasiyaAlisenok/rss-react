@@ -1,38 +1,24 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { render, screen, waitFor } from '@testing-library/react';
+import { getByTestId, render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import { ContentContext } from '../../hoc/ContentProvider';
-import mockContentContext from '../ItemsList/ItemList.test';
+import { mockContentContext } from '../../tests-helpers/mockContentContext';
 import ItemCard from './ItemCard';
-
-jest.mock('../../api/apiRequests.tsx', () => ({
-  getDetailInfo: jest.fn().mockResolvedValue({
-    id: 1,
-    title: 'iPhone 9',
-    description: 'An apple mobile which is nothing like apple',
-    price: 549,
-    rating: 4.69,
-    brand: 'Apple',
-    images: [
-      'https://i.dummyjson.com/data/products/1/1.jpg',
-      'https://i.dummyjson.com/data/products/1/2.jpg',
-      'https://i.dummyjson.com/data/products/1/3.jpg',
-      'https://i.dummyjson.com/data/products/1/4.jpg',
-      'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
-    ],
-  }),
-}));
+import MainPage from '../../page/MainPage/MainPage';
 
 const cardInfo = {
   id: 1,
   title: 'iPhone 9',
   description: 'An apple mobile which is nothing like apple',
+  discountPercentage: 1,
   price: 549,
   rating: 4.69,
   brand: 'Apple',
+  category: '',
+  stock: 1,
+  thumbnail: '',
   images: [
     'https://i.dummyjson.com/data/products/1/1.jpg',
     'https://i.dummyjson.com/data/products/1/2.jpg',
@@ -43,6 +29,24 @@ const cardInfo = {
 };
 
 describe('ItemCard', () => {
+  jest.mock('../../api/apiRequests.tsx', () => ({
+    getDetailInfo: jest.fn().mockResolvedValue({
+      id: 1,
+      title: 'iPhone 9',
+      description: 'An apple mobile which is nothing like apple',
+      price: 549,
+      rating: 4.69,
+      brand: 'Apple',
+      images: [
+        'https://i.dummyjson.com/data/products/1/1.jpg',
+        'https://i.dummyjson.com/data/products/1/2.jpg',
+        'https://i.dummyjson.com/data/products/1/3.jpg',
+        'https://i.dummyjson.com/data/products/1/4.jpg',
+        'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
+      ],
+    }),
+  }));
+
   beforeEach(() => {
     render(
       <BrowserRouter>
@@ -68,13 +72,11 @@ describe('ItemCard', () => {
     expect(screen.getByText(cardInfo.description)).toBeInTheDocument();
   });
   it('validate that clicking on a card opens a detailed card componen and check that clicking triggers an additional API call to fetch', async () => {
-    const card = await screen.findByTestId('item');
+    const cards = screen.getAllByTestId('item');
     const user = userEvent.setup();
-    await user.click(card);
-    waitFor(() => {
-      const detailBlock = screen.getByTestId('detail');
-      expect(detailBlock).toBeInTheDocument();
-      expect(fetch).toHaveBeenCalled();
+    user.click(cards[0]);
+    await waitFor(() => {
+      expect(window.location.pathname).toEqual('/frontpage=1&details=1');
     });
   });
 });
