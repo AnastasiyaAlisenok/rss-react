@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import ItemCard from '../ItemCard/ItemCard';
 import Loader from '../Loader/Loader';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoudary';
@@ -12,28 +12,23 @@ const ItemsList = (): JSX.Element => {
     <ErrorBoundary>
       <section className="list-container">
         {loading ? (
-          <Loader />
+          <Loader data-testid="loader-1" />
         ) : products?.length ? (
           <>
             <Pagination />
             <div className="list">
               {products &&
                 products.map((product) => (
-                  <NavLink
+                  <ItemCard
                     key={product.id}
-                    to={`../frontpage=${page}&details=${product.id}`}
-                  >
-                    <ItemCard
-                      key={product.id}
-                      id={product.id}
-                      src={product.images[0]}
-                      title={product.title}
-                      description={product.description}
-                      price={product.price}
-                      rating={product.rating}
-                      brand={product.brand}
-                    />
-                  </NavLink>
+                    id={product.id}
+                    src={product.images[0]}
+                    title={product.title}
+                    description={product.description}
+                    price={product.price}
+                    rating={product.rating}
+                    brand={product.brand}
+                  />
                 ))}
             </div>
           </>
