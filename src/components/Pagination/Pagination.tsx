@@ -14,9 +14,6 @@ const Pagination = (): JSX.Element => {
     setNewPage(page - 1);
     navigation(`../page=${page - 1}`);
   };
-
-  // const clickNext = (): void => {};
-
   const isDisableFirstPage = (): boolean => {
     if (page === firstPage || Number(pageNumber) === firstPage) {
       return true;

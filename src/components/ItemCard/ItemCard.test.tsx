@@ -1,12 +1,11 @@
 import React from 'react';
-import { getByTestId, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
-import { BrowserRouter, MemoryRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { ContentContext } from '../../hoc/ContentProvider';
 import { mockContentContext } from '../../tests-helpers/mockContentContext';
 import ItemCard from './ItemCard';
-import MainPage from '../../page/MainPage/MainPage';
 
 const cardInfo = {
   id: 1,

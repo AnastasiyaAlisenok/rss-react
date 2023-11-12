@@ -1,16 +1,8 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import {
-  screen,
-  render,
-  fireEvent,
-  waitFor,
-  renderHook,
-} from '@testing-library/react';
-import ReactDOM from 'react-dom/client';
+import { screen, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { BrowserRouter, MemoryRouter } from 'react-router-dom';
-import { act } from 'react-dom/test-utils';
+import { BrowserRouter } from 'react-router-dom';
 import DetailBlock from './DetailBlock';
 import { ContentContext } from '../../hoc/ContentProvider';
 import {
