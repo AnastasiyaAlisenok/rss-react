@@ -26,7 +26,7 @@ const Search: React.FC<SearchProps> = ({ clickSearch }): JSX.Element => {
   useEffect(() => {
     setLoading(true);
     const searchvalue = localStorage.getItem('search-value') || '';
-    clickSearch(searchvalue.trim(), Number(pageNumber), limit);
+    clickSearch(searchValue.trim(), Number(pageNumber), limit);
     if (pageNumber) setNewPage(Number(pageNumber));
   }, [clickSearch, limit, page]);
 
@@ -36,8 +36,8 @@ const Search: React.FC<SearchProps> = ({ clickSearch }): JSX.Element => {
 
   const clickButton = (newValue: string): void => {
     setNewPage(firstPage);
-    localStorage.setItem('search-value', newValue);
     setNewSearchValue(newValue);
+    localStorage.setItem('search-value', newValue);
     clickSearch(newValue.trim(), firstPage, limit);
   };
 
@@ -47,6 +47,7 @@ const Search: React.FC<SearchProps> = ({ clickSearch }): JSX.Element => {
         className="search__input"
         type="text"
         value={searchValue}
+        data-testid="input"
         onChange={(event): void => {
           changeValue(event.target.value);
         }}
@@ -55,6 +56,7 @@ const Search: React.FC<SearchProps> = ({ clickSearch }): JSX.Element => {
         className="search__button"
         aria-label="Search"
         type="submit"
+        data-testid="input-btn"
         onClick={(e): void => {
           e.preventDefault();
           clickButton(searchValue);

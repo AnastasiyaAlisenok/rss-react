@@ -15,8 +15,9 @@
     "isolatedModules": true,
     "noImplicitAny": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "types": ["node", "jest", "@testing-library/jest-dom", "@testing-library/react"]
   },
-  "include": [".eslintrc.json", "src"],
+  "include": [".eslintrc.json", "src", "setupTest.ts", "__mocks__/handlers.tsx", "__mocks__/mswServer.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

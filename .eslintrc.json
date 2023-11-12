@@ -78,6 +78,11 @@
         "tsconfig.json",
         "dist/",
         "module.d.ts",
-        "vite.config.ts"
+        "vite.config.ts",
+        "babel.config.js",
+        "jest.config.js",
+        "setupTest.ts",
+        "__mocks__/handlers.tsx",
+        "__mocks__/mswServer.tsx"
     ]
 }
