@@ -6,25 +6,26 @@ import { getDetailInfo } from '../../api/apiRequests';
 import Loader from '../Loader/Loader';
 
 const DetailBlock = (): JSX.Element => {
-  const [loading, setLoading] = useState(true);
   const { page, id } = useParams();
-  const { product, setNewProduct } = useContext(ContentContext);
+  const { product, setNewProduct, loadingDetail, setLoadingDetail } =
+    useContext(ContentContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     getDetailInfo(Number(id), Number(page)).then((obj) => {
       setNewProduct(obj);
-      setLoading(false);
+      setLoadingDetail(false);
     });
   }, [id, page]);
   return (
     <div className="detail">
-      {loading ? (
+      {loadingDetail ? (
         <Loader />
       ) : (
         <>
-          <div className="detail-block">
+          <div className="detail-block" data-testid="detail">
             <button
+              data-testid="btn-close"
               type="button"
               className="detail-block__close-btn"
               onClick={(): void => navigate(-1)}
