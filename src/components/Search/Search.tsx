@@ -1,8 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './Search.scss';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import searchIcon from '../../assets/search.svg';
 import { ContentContext } from '../../hoc/ContentProvider';
+import { RootState } from '../../redux/store';
+import { actions } from '../../redux/searchValue/searchValue.slice';
 
 const firstPage = 1;
 
@@ -11,32 +14,27 @@ interface SearchProps {
 }
 
 const Search: React.FC<SearchProps> = ({ clickSearch }): JSX.Element => {
-  const {
-    page,
-    limit,
-    setNewPage,
-    setLoading,
-    searchValue,
-    setNewSearchValue,
-  } = useContext(ContentContext);
+  const { page, limit, setNewPage, setLoading } = useContext(ContentContext);
+  const searchValue = useSelector((state: RootState) => state.searchValue);
+  const [value, setValue] = useState(searchValue);
+  const dispatch = useDispatch();
 
   const { pageNumber } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
-    const searchvalue = localStorage.getItem('search-value') || '';
     clickSearch(searchValue.trim(), Number(pageNumber), limit);
     if (pageNumber) setNewPage(Number(pageNumber));
-  }, [clickSearch, limit, page]);
+  }, [limit, page]);
 
   const changeValue = (newValue: string): void => {
-    setNewSearchValue(newValue);
+    setValue(newValue);
   };
 
   const clickButton = (newValue: string): void => {
     setNewPage(firstPage);
-    setNewSearchValue(newValue);
+    dispatch(actions.saveSearchValue(newValue));
     localStorage.setItem('search-value', newValue);
     clickSearch(newValue.trim(), firstPage, limit);
   };
@@ -46,7 +44,7 @@ const Search: React.FC<SearchProps> = ({ clickSearch }): JSX.Element => {
       <input
         className="search__input"
         type="text"
-        value={searchValue}
+        value={value}
         data-testid="input"
         onChange={(event): void => {
           changeValue(event.target.value);
@@ -59,7 +57,7 @@ const Search: React.FC<SearchProps> = ({ clickSearch }): JSX.Element => {
         data-testid="input-btn"
         onClick={(e): void => {
           e.preventDefault();
-          clickButton(searchValue);
+          clickButton(value);
           navigate('../page=1');
         }}
       >
