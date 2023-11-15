@@ -14,7 +14,8 @@ interface SearchProps {
 }
 
 const Search: React.FC<SearchProps> = ({ clickSearch }): JSX.Element => {
-  const { page, limit, setNewPage, setLoading } = useContext(ContentContext);
+  const { page, setNewPage, setLoading } = useContext(ContentContext);
+  const limit = useSelector((state: RootState) => state.limit);
   const searchValue = useSelector((state: RootState) => state.searchValue);
   const [value, setValue] = useState(searchValue);
   const dispatch = useDispatch();

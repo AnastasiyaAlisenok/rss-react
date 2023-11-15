@@ -1,13 +1,17 @@
 import { useContext } from 'react';
 import './Pagination.scss';
-import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { ContentContext } from '../../hoc/ContentProvider';
+import { RootState } from '../../redux/store';
+import { actions } from '../../redux/limit/limit.slice';
 
 const firstPage = 1;
 
 const Pagination = (): JSX.Element => {
-  const { page, setNewPage, setNewLimit, lastPage, limit } =
-    useContext(ContentContext);
+  const { page, setNewPage, lastPage } = useContext(ContentContext);
+  const limit = useSelector((state: RootState) => state.limit);
+  const dispatch = useDispatch();
   const { pageNumber } = useParams();
   const navigation = useNavigate();
   const clickPrev = (): void => {
@@ -51,7 +55,7 @@ const Pagination = (): JSX.Element => {
         className="paginate__select"
         value={limit}
         onChange={(event): void => {
-          setNewLimit(Number(event.target.value));
+          dispatch(actions.setLimit(Number(event.target.value)));
           navigation('../page=1');
         }}
       >

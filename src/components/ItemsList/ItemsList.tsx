@@ -6,7 +6,7 @@ import Pagination from '../Pagination/Pagination';
 import { ContentContext } from '../../hoc/ContentProvider';
 
 const ItemsList = (): JSX.Element => {
-  const { products, loading, page } = useContext(ContentContext);
+  const { products, loading } = useContext(ContentContext);
   return (
     <ErrorBoundary>
       <section className="list-container">
