@@ -1,8 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './DetailBlock.scss';
-import { ContentContext } from '../../hoc/ContentProvider';
-import { getDetailInfo } from '../../api/apiRequests';
 import Loader from '../Loader/Loader';
 import { useGetProductQuery } from '../../api/api';
 
