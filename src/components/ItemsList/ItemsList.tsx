@@ -21,7 +21,6 @@ const ItemsList = (): JSX.Element => {
     limit,
     page,
   });
-  console.log(data);
   return (
     <ErrorBoundary>
       <section className="list-container">

@@ -4,22 +4,19 @@ import './DetailBlock.scss';
 import { ContentContext } from '../../hoc/ContentProvider';
 import { getDetailInfo } from '../../api/apiRequests';
 import Loader from '../Loader/Loader';
+import { useGetProductQuery } from '../../api/api';
 
 const DetailBlock = (): JSX.Element => {
   const { page, id } = useParams();
-  const { product, setNewProduct, loadingDetail, setLoadingDetail } =
-    useContext(ContentContext);
   const navigate = useNavigate();
+  const { data, isLoading } = useGetProductQuery({
+    id: Number(id),
+    page: Number(page),
+  });
 
-  useEffect(() => {
-    getDetailInfo(Number(id), Number(page)).then((obj) => {
-      setNewProduct(obj);
-      setLoadingDetail(false);
-    });
-  }, [id, page]);
   return (
     <div className="detail">
-      {loadingDetail ? (
+      {isLoading ? (
         <Loader />
       ) : (
         <>
@@ -34,15 +31,15 @@ const DetailBlock = (): JSX.Element => {
             </button>
             <img
               className="detail-block__img"
-              src={product?.images[0]}
+              src={data?.images[0]}
               alt="item-img"
             />
             <div className="detail-block__content">
-              <h2 className="detail-block__title">{product?.title}</h2>
-              <p className="detail-block__price">Price: {product?.price}$</p>
-              <p className="detail-block__rating">Rating: {product?.rating}</p>
-              <p className="detail-block__brand">Brand: {product?.brand}</p>
-              <p className="detail-block__text">{product?.description}</p>
+              <h2 className="detail-block__title">{data?.title}</h2>
+              <p className="detail-block__price">Price: {data?.price}$</p>
+              <p className="detail-block__rating">Rating: {data?.rating}</p>
+              <p className="detail-block__brand">Brand: {data?.brand}</p>
+              <p className="detail-block__text">{data?.description}</p>
             </div>
           </div>
           <button

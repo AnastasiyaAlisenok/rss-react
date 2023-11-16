@@ -1,11 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ResponseType } from '../types/types';
+import { ProductType, ResponseType } from '../types/types';
 
 const API_URL = 'https://dummyjson.com/products';
 
 interface IArgsProductsType {
   value: string;
   limit: number;
+  page: number;
+}
+
+interface IArgsProductType {
+  id: number;
   page: number;
 }
 
@@ -22,7 +27,7 @@ const api = createApi({
           args.limit
         }&skip=${(args.page - 1) * args.limit}`,
     }),
-    getProduct: builder.query({
+    getProduct: builder.query<ProductType, IArgsProductType>({
       query: (args: { id: number; page: number }) =>
         `${args.id}?page=${args.page}`,
     }),
