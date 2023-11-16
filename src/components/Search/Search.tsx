@@ -1,33 +1,27 @@
 import React, { useContext, useEffect, useState } from 'react';
 import './Search.scss';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import searchIcon from '../../assets/search.svg';
 import { ContentContext } from '../../hoc/ContentProvider';
 import { RootState } from '../../redux/store';
-import { actions } from '../../redux/searchValue/searchValue.slice';
+import useActions from '../../redux/hooks/useActions';
+import { useGetPoductsQuery } from '../../api/api';
 
 const firstPage = 1;
 
-interface SearchProps {
+/* interface SearchProps {
   clickSearch: (value: string, page: number, limit: number) => void;
-}
+} */
 
-const Search: React.FC<SearchProps> = ({ clickSearch }): JSX.Element => {
-  const { page, setNewPage, setLoading } = useContext(ContentContext);
+const Search = (): JSX.Element => {
+  const { setNewPage } = useContext(ContentContext);
   const limit = useSelector((state: RootState) => state.limit);
   const searchValue = useSelector((state: RootState) => state.searchValue);
   const [value, setValue] = useState(searchValue);
-  const dispatch = useDispatch();
+  const { saveSearchValue } = useActions();
 
-  const { pageNumber } = useParams();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setLoading(true);
-    clickSearch(searchValue.trim(), Number(pageNumber), limit);
-    if (pageNumber) setNewPage(Number(pageNumber));
-  }, [limit, page]);
 
   const changeValue = (newValue: string): void => {
     setValue(newValue);
@@ -35,9 +29,8 @@ const Search: React.FC<SearchProps> = ({ clickSearch }): JSX.Element => {
 
   const clickButton = (newValue: string): void => {
     setNewPage(firstPage);
-    dispatch(actions.saveSearchValue(newValue));
+    saveSearchValue(newValue);
     localStorage.setItem('search-value', newValue);
-    clickSearch(newValue.trim(), firstPage, limit);
   };
 
   return (

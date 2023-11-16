@@ -1,23 +1,38 @@
 import React, { useContext } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { RootState } from '../../redux/store';
 import ItemCard from '../ItemCard/ItemCard';
 import Loader from '../Loader/Loader';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoudary';
 import Pagination from '../Pagination/Pagination';
 import { ContentContext } from '../../hoc/ContentProvider';
+import { useGetPoductsQuery } from '../../api/api';
+import { ProductType } from '../../types/types';
 
 const ItemsList = (): JSX.Element => {
-  const { products, loading } = useContext(ContentContext);
+  const { page, setNewPage } = useContext(ContentContext);
+  const { pageNumber } = useParams();
+  if (pageNumber) setNewPage(Number(pageNumber));
+  const limit = useSelector((state: RootState) => state.limit);
+  const searchValue = useSelector((state: RootState) => state.searchValue);
+  const { data, isLoading } = useGetPoductsQuery({
+    value: searchValue,
+    limit,
+    page,
+  });
+  console.log(data);
   return (
     <ErrorBoundary>
       <section className="list-container">
-        {loading ? (
+        {isLoading ? (
           <Loader data-testid="loader-1" />
-        ) : products?.length ? (
+        ) : data?.products?.length ? (
           <>
             <Pagination />
             <div className="list">
-              {products &&
-                products.map((product) => (
+              {data.products &&
+                data.products.map((product: ProductType) => (
                   <ItemCard
                     key={product.id}
                     id={product.id}
