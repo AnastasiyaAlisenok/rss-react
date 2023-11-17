@@ -3,9 +3,8 @@ import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
-import { ContentContext } from '../../hoc/ContentProvider';
-import { mockContentContext } from '../../tests-helpers/mockContentContext';
 import ItemCard from './ItemCard';
+import renderWithProviders from '../../tests-helpers/test-helpers';
 
 const cardInfo = {
   id: 1,
@@ -28,38 +27,18 @@ const cardInfo = {
 };
 
 describe('ItemCard', () => {
-  jest.mock('../../api/apiRequests.tsx', () => ({
-    getDetailInfo: jest.fn().mockResolvedValue({
-      id: 1,
-      title: 'iPhone 9',
-      description: 'An apple mobile which is nothing like apple',
-      price: 549,
-      rating: 4.69,
-      brand: 'Apple',
-      images: [
-        'https://i.dummyjson.com/data/products/1/1.jpg',
-        'https://i.dummyjson.com/data/products/1/2.jpg',
-        'https://i.dummyjson.com/data/products/1/3.jpg',
-        'https://i.dummyjson.com/data/products/1/4.jpg',
-        'https://i.dummyjson.com/data/products/1/thumbnail.jpg',
-      ],
-    }),
-  }));
-
   beforeEach(() => {
-    render(
+    renderWithProviders(
       <BrowserRouter>
-        <ContentContext.Provider value={mockContentContext}>
-          <ItemCard
-            id={cardInfo.id}
-            title={cardInfo.title}
-            description={cardInfo.description}
-            price={cardInfo.price}
-            rating={cardInfo.rating}
-            brand={cardInfo.brand}
-            src={cardInfo.images[0]}
-          />
-        </ContentContext.Provider>
+        <ItemCard
+          id={cardInfo.id}
+          title={cardInfo.title}
+          description={cardInfo.description}
+          price={cardInfo.price}
+          rating={cardInfo.rating}
+          brand={cardInfo.brand}
+          src={cardInfo.images[0]}
+        />
       </BrowserRouter>
     );
   });

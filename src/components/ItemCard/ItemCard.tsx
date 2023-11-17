@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
 import './ItemCard.scss';
-import { Link, useNavigate } from 'react-router-dom';
-import { ContentContext } from '../../hoc/ContentProvider';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 interface ItemCardProps {
   id: number;
@@ -22,7 +22,7 @@ const ItemCard: React.FC<ItemCardProps> = ({
   rating,
   brand,
 }): JSX.Element => {
-  const { page } = useContext(ContentContext);
+  const { page } = useSelector((state: RootState) => state.page);
   const navigation = useNavigate();
   return (
     <button

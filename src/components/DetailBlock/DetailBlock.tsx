@@ -6,14 +6,14 @@ import { useGetProductQuery } from '../../api/api';
 const DetailBlock = (): JSX.Element => {
   const { page, id } = useParams();
   const navigate = useNavigate();
-  const { data, isLoading } = useGetProductQuery({
+  const { data, isFetching } = useGetProductQuery({
     id: Number(id),
     page: Number(page),
   });
 
   return (
     <div className="detail">
-      {isLoading ? (
+      {isFetching && !data ? (
         <Loader />
       ) : (
         <>

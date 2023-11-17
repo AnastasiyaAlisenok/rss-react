@@ -2,20 +2,19 @@ import { useContext } from 'react';
 import './Pagination.scss';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { ContentContext } from '../../hoc/ContentProvider';
 import { RootState } from '../../redux/store';
 import useActions from '../../redux/hooks/useActions';
 
 const firstPage = 1;
 
 const Pagination = (): JSX.Element => {
-  const { page, setNewPage, lastPage } = useContext(ContentContext);
+  const { page, lastPage } = useSelector((state: RootState) => state.page);
   const limit = useSelector((state: RootState) => state.limit);
-  const { setLimit } = useActions();
+  const { setLimit, increment, decrement, setNewPage } = useActions();
   const { pageNumber } = useParams();
   const navigation = useNavigate();
   const clickPrev = (): void => {
-    setNewPage(page - 1);
+    decrement();
     navigation(`../page=${page - 1}`);
   };
   const isDisableFirstPage = (): boolean => {
@@ -45,7 +44,7 @@ const Pagination = (): JSX.Element => {
         className="button paginate__btn"
         type="button"
         onClick={(): void => {
-          setNewPage(page + 1);
+          increment();
           navigation(`../page=${page + 1}`);
         }}
         disabled={isDisableLastPage()}

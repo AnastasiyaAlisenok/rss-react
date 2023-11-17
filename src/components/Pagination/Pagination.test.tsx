@@ -1,20 +1,16 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { BrowserRouter } from 'react-router-dom';
-import { render, screen, waitFor } from '@testing-library/react';
+import { BrowserRouter, MemoryRouter } from 'react-router-dom';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { ContentContext } from '../../hoc/ContentProvider';
-import { mockContentContext } from '../../tests-helpers/mockContentContext';
 import Pagination from './Pagination';
+import renderWithProviders from '../../tests-helpers/test-helpers';
 
 describe('Pagination', () => {
   it('the component updates URL query parameter when page changes', async () => {
-    mockContentContext.page = 1;
-    render(
+    renderWithProviders(
       <BrowserRouter>
-        <ContentContext.Provider value={mockContentContext}>
-          <Pagination />
-        </ContentContext.Provider>
+        <Pagination />
       </BrowserRouter>
     );
     const btnNext = await screen.findByTestId('btn-next');

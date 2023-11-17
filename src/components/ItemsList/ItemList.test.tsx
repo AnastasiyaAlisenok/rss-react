@@ -1,38 +1,36 @@
 import React from 'react';
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import {
-  mockContentContext,
-  nullMockContentContext,
-} from '../../tests-helpers/mockContentContext';
-import { ContentContext } from '../../hoc/ContentProvider';
 import ItemsList from './ItemsList';
+import renderWithProviders from '../../tests-helpers/test-helpers';
+import server from '../../mock/server';
+import handlers from '../../mock/handler';
 
 describe('ItemList', () => {
-  test('renders the specified number of cards', () => {
-    render(
+  test('renders the specified number of cards', async () => {
+    server.use(handlers[0]);
+    renderWithProviders(
       <MemoryRouter>
-        <ContentContext.Provider value={mockContentContext}>
-          <ItemsList />
-        </ContentContext.Provider>
+        <ItemsList />
       </MemoryRouter>
     );
-    const cards = screen.queryAllByTestId('item');
-    expect(cards).toHaveLength(mockContentContext.products.length);
+    await waitFor(() => {
+      const cards = screen.getAllByTestId('item');
+      expect(cards).toHaveLength(5);
+    });
   });
 
-  test('check that an appropriate message is displayed if no cards are present', () => {
-    render(
+  test('check that an appropriate message is displayed if no cards are present', async () => {
+    server.use(handlers[1]);
+    renderWithProviders(
       <MemoryRouter>
-        <ContentContext.Provider value={nullMockContentContext}>
-          <ItemsList />
-        </ContentContext.Provider>
+        <ItemsList />
       </MemoryRouter>
     );
-    const cards = screen.queryAllByTestId('item');
-    expect(cards).toHaveLength(0);
-    const text = screen.getByText(/nothing found/i);
-    expect(text).toBeInTheDocument();
+    await waitFor(() => {
+      const text = screen.getByText(/nothing found/i);
+      expect(text).toBeInTheDocument();
+    });
   });
 });

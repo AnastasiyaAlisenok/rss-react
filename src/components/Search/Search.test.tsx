@@ -1,14 +1,15 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import React from 'react';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import Search from './Search';
+import renderWithProviders from '../../tests-helpers/test-helpers';
 
 describe('Search', () => {
   it('renders Search', () => {
-    render(
+    renderWithProviders(
       <MemoryRouter>
-        <Search clickSearch={(): void => {}} />
+        <Search />
       </MemoryRouter>
     );
     const input = screen.getByRole('textbox');
@@ -20,9 +21,9 @@ describe('Search', () => {
   });
 
   it('clicking the Search button saves the entered value to the local storage', () => {
-    render(
+    renderWithProviders(
       <BrowserRouter>
-        <Search clickSearch={(): void => {}} />/
+        <Search />/
       </BrowserRouter>
     );
     const input = screen.getByTestId('input');
@@ -39,10 +40,9 @@ describe('Search', () => {
 
   it('input get value from LS upon mounting', async () => {
     localStorage.setItem('search-value', 'test-value');
-    console.log(localStorage.getItem('search-value'));
-    render(
+    renderWithProviders(
       <MemoryRouter>
-        <Search clickSearch={(): void => {}} />
+        <Search />
       </MemoryRouter>
     );
     const button = screen.getByRole('button');

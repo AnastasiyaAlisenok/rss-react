@@ -1,22 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './Search.scss';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import searchIcon from '../../assets/search.svg';
-import { ContentContext } from '../../hoc/ContentProvider';
 import { RootState } from '../../redux/store';
 import useActions from '../../redux/hooks/useActions';
-import { useGetPoductsQuery } from '../../api/api';
 
 const firstPage = 1;
 
-/* interface SearchProps {
-  clickSearch: (value: string, page: number, limit: number) => void;
-} */
-
 const Search = (): JSX.Element => {
-  const { setNewPage } = useContext(ContentContext);
-  const limit = useSelector((state: RootState) => state.limit);
+  const { setNewPage } = useActions();
   const searchValue = useSelector((state: RootState) => state.searchValue);
   const [value, setValue] = useState(searchValue);
   const { saveSearchValue } = useActions();

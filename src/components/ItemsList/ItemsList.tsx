@@ -1,30 +1,41 @@
-import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 import { RootState } from '../../redux/store';
 import ItemCard from '../ItemCard/ItemCard';
 import Loader from '../Loader/Loader';
 import ErrorBoundary from '../ErrorBoundary/ErrorBoudary';
 import Pagination from '../Pagination/Pagination';
-import { ContentContext } from '../../hoc/ContentProvider';
+import useActions from '../../redux/hooks/useActions';
 import { useGetPoductsQuery } from '../../api/api';
 import { ProductType } from '../../types/types';
 
 const ItemsList = (): JSX.Element => {
-  const { page, setNewPage } = useContext(ContentContext);
   const { pageNumber } = useParams();
-  if (pageNumber) setNewPage(Number(pageNumber));
+  const { setNewPage, setLastPage } = useActions();
+  const { page } = useSelector((state: RootState) => state.page);
   const limit = useSelector((state: RootState) => state.limit);
   const searchValue = useSelector((state: RootState) => state.searchValue);
-  const { data, isLoading } = useGetPoductsQuery({
+  const { data, isFetching } = useGetPoductsQuery({
     value: searchValue,
     limit,
-    page,
+    page: pageNumber ? Number(pageNumber) : page,
   });
+
+  useEffect(() => {
+    if (data) {
+      const pageLast = Math.ceil(data.total / limit);
+      setLastPage(pageLast);
+    }
+    if (pageNumber) {
+      setNewPage(Number(pageNumber));
+    }
+  }, [data, pageNumber, page]);
+
   return (
     <ErrorBoundary>
       <section className="list-container">
-        {isLoading ? (
+        {isFetching && !data?.products ? (
           <Loader data-testid="loader-1" />
         ) : data?.products?.length ? (
           <>

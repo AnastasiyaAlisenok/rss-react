@@ -1,9 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import ErrorPage from './ErrorPage';
+import renderWithProviders from '../../tests-helpers/test-helpers';
 
 test('Ensure that the 404 page is displayed when navigating to an invalid route', () => {
-  render(
+  renderWithProviders(
     <MemoryRouter initialEntries={['/error-path']} initialIndex={0}>
       <Routes>
         <Route path="error-path" element={<ErrorPage />} />
