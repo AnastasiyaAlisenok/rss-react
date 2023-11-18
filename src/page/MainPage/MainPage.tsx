@@ -5,7 +5,6 @@ import Search from '../../components/Search/Search';
 
 const MainPage = (): JSX.Element => {
   const [error, setError] = useState(false);
-
   if (error) throw new Error();
   return (
     <div className="page">

@@ -7,12 +7,16 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { reducer as searchValueReducer } from './searchValue/searchValue.slice';
 import { reducer as limitReducer } from './limit/limit.slice';
 import { reducer as pageReducer } from './page/page.slice';
+import { reducer as loadingPageReducer } from './isLoadingPage/isLoadingPage.slice';
+import { reducer as loadingDetailReducer } from './isLoadingDetail/isLoadingDetail.slice';
 import api from '../api/api';
 
 const reducers = combineReducers({
   searchValue: searchValueReducer,
   limit: limitReducer,
   page: pageReducer,
+  isLoadingPage: loadingPageReducer,
+  isLoadingDetail: loadingDetailReducer,
   [api.reducerPath]: api.reducer,
 });
 

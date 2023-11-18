@@ -1,19 +1,29 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import './DetailBlock.scss';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import Loader from '../Loader/Loader';
 import { useGetProductQuery } from '../../api/api';
+import useActions from '../../redux/hooks/useActions';
+import { RootState } from '../../redux/store';
 
 const DetailBlock = (): JSX.Element => {
   const { page, id } = useParams();
+  const { setLoadingDeatil } = useActions();
+  const isLoading = useSelector((state: RootState) => state.isLoadingDetail);
   const navigate = useNavigate();
   const { data, isFetching } = useGetProductQuery({
     id: Number(id),
     page: Number(page),
   });
 
+  useEffect(() => {
+    setLoadingDeatil(isFetching);
+  }, [isFetching]);
+
   return (
     <div className="detail">
-      {isFetching && !data ? (
+      {isLoading && !data ? (
         <Loader />
       ) : (
         <>
