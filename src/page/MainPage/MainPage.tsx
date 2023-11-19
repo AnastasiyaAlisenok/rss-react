@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import ItemsList from '../../components/ItemsList/ItemsList';
 import Search from '../../components/Search/Search';
 
 const MainPage = (): JSX.Element => {
   const [error, setError] = useState(false);
-  if (error) throw new Error();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (error) throw new Error();
+  }, [error]);
+
   return (
     <div className="page">
       <div className="page__container">
@@ -16,6 +21,7 @@ const MainPage = (): JSX.Element => {
             type="button"
             onClick={(): void => {
               setError(true);
+              navigate('../*');
             }}
           >
             Get error
