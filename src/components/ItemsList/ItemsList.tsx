@@ -34,9 +34,11 @@ const ItemsList = (): JSX.Element => {
     }
   }, [data, pageNumber, page, isFetching]);
 
+  console.log(isLoading);
+
   return (
     <section className="list-container">
-      {isLoading && !data?.products ? (
+      {isLoading ? (
         <Loader data-testid="loader-1" />
       ) : data?.products?.length ? (
         <>
