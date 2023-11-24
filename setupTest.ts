@@ -20,8 +20,8 @@ Object.defineProperties(globalThis, {
 })
 
 import server from './__mocks__/server';
-import api from './api/api';
-import { setupStore } from './redux/store';
+import api from './src/api/api';
+import { setupStore } from './src/redux/store';
 
 const store = setupStore({});
 
