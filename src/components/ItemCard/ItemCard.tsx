@@ -15,6 +15,8 @@ const ItemCard: React.FC<ItemCardProps> = ({ product }): JSX.Element => {
   const searchParams = useSearchParams();
   const limitStore = useSelector((state: RootState) => state.limit);
   const limit = searchParams.get('limit') || limitStore;
+  const searchValueStore = useSelector((state: RootState) => state.searchValue);
+  const searchValue = searchParams.get('query') || searchValueStore;
   const router = useRouter();
   const pathname = usePathname();
   return (
@@ -27,6 +29,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ product }): JSX.Element => {
         const params = new URLSearchParams();
         params.set('frontpage', page.toString());
         params.set('details', product.id.toString());
+        params.set('query', searchValue);
         params.set('limit', limit.toString());
         router.push(`${pathname}?${params.toString()}`);
       }}
