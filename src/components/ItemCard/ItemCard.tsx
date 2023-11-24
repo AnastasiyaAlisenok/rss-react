@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ProductType } from '@/src/types/types';
+import { usePathname } from 'next/navigation';
 import styles from './ItemCard.module.scss';
 import { RootState } from '../../redux/store';
 
@@ -12,22 +13,27 @@ interface ItemCardProps {
 const ItemCard: React.FC<ItemCardProps> = ({ product }): JSX.Element => {
   const { page } = useSelector((state: RootState) => state.page);
   const router = useRouter();
+  const pathname = usePathname();
   return (
     <button
       id={`${product.id}`}
       type="button"
       className={styles.card}
       data-testid="item"
-      /* onClick={(): void =>
-         router.push(`../frontpage=${page}&details=${product.id}`)
-      } */
+      onClick={(): void => {
+        const params = new URLSearchParams();
+        params.set('frontpage', page.toString());
+        params.set('details', product.id.toString());
+        router.push(`${pathname}?${params.toString()}`);
+      }}
     >
       <Image
         className={styles.cardImg}
-        width={200}
+        width={298}
         height={200}
         src={product.images[0]}
         alt="item-img"
+        priority
       />
       <div className={styles.cardContent}>
         <h2 className={styles.cardTitle}>{product.title}</h2>

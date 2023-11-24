@@ -1,16 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { InferGetServerSidePropsType } from 'next';
+import { useParams, usePathname, useSearchParams } from 'next/navigation';
 import { wrapper } from '../redux/store';
-import api, { getPoducts } from '../api/api';
+import api, { getPoducts, getProduct } from '../api/api';
 import Loader from '../components/Loader/Loader';
 import ItemsList from '../components/ItemsList/ItemsList';
 import Search from '../components/Search/Search';
 import styles from './App.module.scss';
+import DetailBlock from '../components/DetailBlock/DetailBlock';
 
 export const getServerSideProps = wrapper.getServerSideProps(
   (store) => async (context) => {
-    const { page, query, limit } = context.query;
+    const { page, query, limit, frontpage, details } = context.query;
+
+    let productInfo;
+
+    if (details) {
+      productInfo = await store.dispatch(
+        getProduct.initiate({
+          page: Number(frontpage),
+          id: Number(details),
+        })
+      );
+    } else {
+      productInfo = null;
+    }
 
     const data = await store.dispatch(
       getPoducts.initiate({
@@ -24,6 +39,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
     return {
       props: {
         products: data,
+        product: productInfo,
       },
     };
   }
@@ -31,8 +47,11 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
 const MainPage = ({
   products,
+  product,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [error, setError] = useState(false);
+  const searchParams = useSearchParams();
+  const details = searchParams.get('details');
   const router = useRouter();
 
   useEffect(() => {
@@ -61,6 +80,7 @@ const MainPage = ({
         </div>
         <ItemsList data={products.data} />
       </div>
+      {details && <DetailBlock product={product?.data} />}
     </div>
   );
 };
