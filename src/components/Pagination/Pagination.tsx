@@ -11,7 +11,8 @@ const firstPage = 1;
 const Pagination = (): JSX.Element => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const pageNumber = Number(searchParams.get('page')) || 1;
+  const pageNumber = Number(searchParams.get('page'));
+  const frontpage = Number(searchParams.get('frontpage'));
   const { page, lastPage } = useSelector((state: RootState) => state.page);
   const limit = Number(searchParams.get('limit')) || 4;
   const searchValue = useSelector((state: RootState) => state.searchValue);
@@ -20,7 +21,10 @@ const Pagination = (): JSX.Element => {
 
   useEffect(() => {
     setNewPage(pageNumber);
-  }, [pageNumber]);
+    if (frontpage) {
+      setNewPage(frontpage);
+    }
+  }, [pageNumber, frontpage]);
 
   const createPageURL = (pageNumb: number | string) => {
     const params = new URLSearchParams(searchParams);
@@ -56,7 +60,7 @@ const Pagination = (): JSX.Element => {
         onClick={clickPrev}
         disabled={isDisableFirstPage()}
       >{`<`}</button>
-      <div className={styles.page}>{pageNumber || page}</div>
+      <div className={styles.page}>{page}</div>
       <button
         className={`button ${styles.btn}`}
         type="button"

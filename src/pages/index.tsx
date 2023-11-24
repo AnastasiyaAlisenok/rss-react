@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { InferGetServerSidePropsType } from 'next';
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
-import { wrapper } from '../redux/store';
+import { useSelector } from 'react-redux';
+import { RootState, wrapper } from '../redux/store';
 import api, { getPoducts, getProduct } from '../api/api';
 import Loader from '../components/Loader/Loader';
 import ItemsList from '../components/ItemsList/ItemsList';
@@ -30,7 +31,11 @@ export const getServerSideProps = wrapper.getServerSideProps(
     const data = await store.dispatch(
       getPoducts.initiate({
         limit: Number(limit) ? Number(limit) : store.getState().limit,
-        page: Number(page) ? Number(page) : 1,
+        page: Number(page)
+          ? Number(page)
+          : frontpage
+            ? Number(frontpage)
+            : store.getState().page.page,
         value: query ? (query as string) : store.getState().searchValue,
       })
     );
@@ -49,39 +54,37 @@ const MainPage = ({
   products,
   product,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const [error, setError] = useState(false);
   const searchParams = useSearchParams();
   const details = searchParams.get('details');
-  const router = useRouter();
+  const [hasError, setHasError] = useState(false);
 
-  useEffect(() => {
-    if (error) throw new Error();
-  }, [error]);
+  const setError = () => {
+    setHasError(true);
+  };
+
+  if (hasError) {
+    throw new Error('This is example Error');
+  }
 
   if (!products) {
     return <Loader />;
   }
 
   return (
-    <div className={styles.page}>
-      <div className={styles.pageContainer}>
-        <div className={styles.container}>
-          <Search />
-          <button
-            className={styles.button}
-            type="button"
-            onClick={(): void => {
-              setError(true);
-              router.push('../*');
-            }}
-          >
-            Get error
-          </button>
+    !hasError && (
+      <div className={styles.page}>
+        <div className={styles.pageContainer}>
+          <div className={styles.container}>
+            <Search />
+            <button className={styles.button} type="button" onClick={setError}>
+              Get error
+            </button>
+          </div>
+          <ItemsList data={products.data} />
         </div>
-        <ItemsList data={products.data} />
+        {details && <DetailBlock product={product?.data} />}
       </div>
-      {details && <DetailBlock product={product?.data} />}
-    </div>
+    )
   );
 };
 

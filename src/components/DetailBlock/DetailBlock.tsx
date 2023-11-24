@@ -14,17 +14,7 @@ const DetailBlock = (props: {
 }): JSX.Element => {
   const router = useRouter();
   const { product } = props;
-  const { page, id } = router.query;
-  const { setLoadingDeatil } = useActions();
   const isLoading = useSelector((state: RootState) => state.isLoadingDetail);
-  /* const { data, isFetching } = useGetProductQuery({
-    id: Number(id),
-    page: Number(page),
-  }); */
-
-  /* useEffect(() => {
-    setLoadingDeatil(isFetching);
-  }, [isFetching]); */
 
   return (
     <div className={styles.detail}>

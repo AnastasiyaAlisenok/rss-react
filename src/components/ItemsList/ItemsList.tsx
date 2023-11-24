@@ -11,7 +11,7 @@ import useActions from '../../redux/hooks/useActions';
 
 const ItemsList = (props: { data: ResponseType | undefined }): JSX.Element => {
   const router = useRouter();
-  const { pageNumber } = router.query;
+  const { pageNumber, frontpage } = router.query;
   const { setNewPage, setLastPage, setLoadingPage } = useActions();
   const { page } = useSelector((state: RootState) => state.page);
   const limit = useSelector((state: RootState) => state.limit);
@@ -27,6 +27,9 @@ const ItemsList = (props: { data: ResponseType | undefined }): JSX.Element => {
     }
     if (pageNumber) {
       setNewPage(Number(pageNumber));
+    }
+    if (frontpage) {
+      setNewPage(frontpage);
     }
   }, [data, pageNumber, page, isLoading, limit, searchValue]);
 

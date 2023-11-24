@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ProductType } from '@/src/types/types';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import styles from './ItemCard.module.scss';
 import { RootState } from '../../redux/store';
 
@@ -12,6 +12,9 @@ interface ItemCardProps {
 
 const ItemCard: React.FC<ItemCardProps> = ({ product }): JSX.Element => {
   const { page } = useSelector((state: RootState) => state.page);
+  const searchParams = useSearchParams();
+  const limitStore = useSelector((state: RootState) => state.limit);
+  const limit = searchParams.get('limit') || limitStore;
   const router = useRouter();
   const pathname = usePathname();
   return (
@@ -24,6 +27,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ product }): JSX.Element => {
         const params = new URLSearchParams();
         params.set('frontpage', page.toString());
         params.set('details', product.id.toString());
+        params.set('limit', limit.toString());
         router.push(`${pathname}?${params.toString()}`);
       }}
     >
