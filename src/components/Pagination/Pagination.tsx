@@ -1,21 +1,38 @@
-import { useContext } from 'react';
-import './Pagination.scss';
-import { useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import styles from './Pagination.module.scss';
 import { RootState } from '../../redux/store';
 import useActions from '../../redux/hooks/useActions';
 
 const firstPage = 1;
 
 const Pagination = (): JSX.Element => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const pageNumber = Number(searchParams.get('page')) || 1;
   const { page, lastPage } = useSelector((state: RootState) => state.page);
-  const limit = useSelector((state: RootState) => state.limit);
+  const limit = Number(searchParams.get('limit')) || 4;
+  const searchValue = useSelector((state: RootState) => state.searchValue);
   const { setLimit, increment, decrement, setNewPage } = useActions();
-  const { pageNumber } = useParams();
-  const navigation = useNavigate();
+  const router = useRouter();
+
+  useEffect(() => {
+    setNewPage(pageNumber);
+  }, [pageNumber]);
+
+  const createPageURL = (pageNumb: number | string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set('page', pageNumb.toString());
+    params.set('query', searchValue);
+    params.set('limit', limit.toString());
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
   const clickPrev = (): void => {
     decrement();
-    navigation(`../page=${page - 1}`);
+    createPageURL(page - 1);
   };
   const isDisableFirstPage = (): boolean => {
     if (page === firstPage || Number(pageNumber) === firstPage) {
@@ -32,31 +49,34 @@ const Pagination = (): JSX.Element => {
   };
 
   return (
-    <div className="paginate">
+    <div className={styles.paginate}>
       <button
-        className="button paginate__btn"
+        className={`button ${styles.btn}`}
         type="button"
         onClick={clickPrev}
         disabled={isDisableFirstPage()}
       >{`<`}</button>
-      <div className="paginate__page">{pageNumber || page}</div>
+      <div className={styles.page}>{pageNumber || page}</div>
       <button
-        className="button paginate__btn"
+        className={`button ${styles.btn}`}
         type="button"
         onClick={(): void => {
           increment();
-          navigation(`../page=${page + 1}`);
+          createPageURL(page + 1);
         }}
         disabled={isDisableLastPage()}
         data-testid="btn-next"
       >{`>`}</button>
       <select
-        className="paginate__select"
+        className={styles.select}
         value={limit}
         onChange={(event): void => {
           setLimit(Number(event.target.value));
           setNewPage(firstPage);
-          navigation('../page=1');
+          const params = new URLSearchParams(searchParams);
+          params.set('page', firstPage.toString());
+          params.set('limit', event.target.value);
+          router.push(`${pathname}?${params.toString()}`);
         }}
       >
         <option value="4">4</option>

@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { HYDRATE } from 'next-redux-wrapper';
 import { ProductType, ResponseType } from '../types/types';
 
 const API_URL = 'https://dummyjson.com/products';
@@ -17,6 +18,11 @@ interface IArgsProductType {
 const api = createApi({
   reducerPath: 'api',
   tagTypes: ['ItemCard'],
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === HYDRATE) {
+      return action.payload[reducerPath];
+    }
+  },
   baseQuery: fetchBaseQuery({
     baseUrl: API_URL,
   }),
@@ -34,6 +40,12 @@ const api = createApi({
   }),
 });
 
-export const { useGetPoductsQuery, useGetProductQuery } = api;
+export const {
+  useGetPoductsQuery,
+  useGetProductQuery,
+  util: { getRunningQueriesThunk },
+} = api;
+
+export const { getPoducts, getProduct } = api.endpoints;
 
 export default api;

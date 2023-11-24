@@ -1,17 +1,18 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import './DetailBlock.scss';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import styles from './DetailBlock.module.scss';
 import Loader from '../Loader/Loader';
 import { useGetProductQuery } from '../../api/api';
 import useActions from '../../redux/hooks/useActions';
 import { RootState } from '../../redux/store';
 
 const DetailBlock = (): JSX.Element => {
-  const { page, id } = useParams();
+  const router = useRouter();
+  const { page, id } = router.query;
   const { setLoadingDeatil } = useActions();
   const isLoading = useSelector((state: RootState) => state.isLoadingDetail);
-  const navigate = useNavigate();
   const { data, isFetching } = useGetProductQuery({
     id: Number(id),
     page: Number(page),
@@ -22,39 +23,38 @@ const DetailBlock = (): JSX.Element => {
   }, [isFetching]);
 
   return (
-    <div className="detail">
+    <div className={styles.detail}>
       {isLoading && !data ? (
         <Loader />
       ) : (
         <>
-          <div className="detail-block" data-testid="detail">
+          <div className={styles.detailBlock} data-testid="detail">
             <button
               data-testid="btn-close"
               type="button"
-              className="detail-block__close-btn"
-              onClick={(): void => navigate(-1)}
+              className={styles.closeBtn}
+              onClick={(): void => router.back()}
             >
               Close
             </button>
-            <img
-              className="detail-block__img"
-              src={data?.images[0]}
+            <Image
+              className={styles.img}
+              src={data?.images[0] as string}
               alt="item-img"
             />
-            <div className="detail-block__content">
-              <h2 className="detail-block__title">{data?.title}</h2>
-              <p className="detail-block__price">Price: {data?.price}$</p>
-              <p className="detail-block__rating">Rating: {data?.rating}</p>
-              <p className="detail-block__brand">Brand: {data?.brand}</p>
-              <p className="detail-block__text">{data?.description}</p>
+            <div className={styles.content}>
+              <h2 className={styles.title}>{data?.title}</h2>
+              <p className={styles.price}>Price: {data?.price}$</p>
+              <p className={styles.rating}>Rating: {data?.rating}</p>
+              <p className={styles.brand}>Brand: {data?.brand}</p>
+              <p className={styles.text}>{data?.description}</p>
             </div>
           </div>
           <button
-            className="detail__overlay"
+            className={styles.overlay}
             type="button"
-            aria-label=" "
-            onClick={(): void => navigate(-1)}
-          />
+            onClick={(): void => router.back()}
+          >{` `}</button>
         </>
       )}
     </div>

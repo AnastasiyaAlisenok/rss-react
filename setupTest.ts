@@ -19,9 +19,9 @@ Object.defineProperties(globalThis, {
   Response: { value: Response },
 })
 
-import server from './src/mock/server';
-import api from './src/api/api';
-import { setupStore } from './src/redux/store';
+import server from './__mocks__/server';
+import api from './api/api';
+import { setupStore } from './redux/store';
 
 const store = setupStore({});
 

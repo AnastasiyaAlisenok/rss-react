@@ -1,0 +1,36 @@
+.paginate {
+  width: 41rem;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  margin-bottom: 60px;
+}
+.paginate a {
+  margin: 0;
+  padding: 0;
+}
+.btn {
+  width: 95px;
+  height: 100%;
+  padding: 10px;
+  margin-bottom: 0;
+  border: none;
+  &:hover {
+    transform: scale(1.05);
+  }
+  &:disabled {
+    pointer-events: none;
+  }
+}
+.page {
+  width: 95px;
+  background-color: #fff;
+  font-size: 20px;
+  border-radius: 5px;
+  text-align: center;
+  padding: 5px 0;
+}
+
+.select {
+  width: 95px;
+}

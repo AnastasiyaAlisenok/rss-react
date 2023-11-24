@@ -1,44 +1,40 @@
-import './ItemCard.scss';
-import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { ProductType } from '@/src/types/types';
+import styles from './ItemCard.module.scss';
 import { RootState } from '../../redux/store';
 
 interface ItemCardProps {
-  id: number;
-  src: string;
-  title: string;
-  description: string;
-  price: number;
-  rating: number;
-  brand: string;
+  product: ProductType;
 }
 
-const ItemCard: React.FC<ItemCardProps> = ({
-  id,
-  src,
-  title,
-  description,
-  price,
-  rating,
-  brand,
-}): JSX.Element => {
+const ItemCard: React.FC<ItemCardProps> = ({ product }): JSX.Element => {
   const { page } = useSelector((state: RootState) => state.page);
-  const navigation = useNavigate();
+  const router = useRouter();
   return (
     <button
-      id={`${id}`}
+      id={`${product.id}`}
       type="button"
-      className="list__card"
+      className={styles.card}
       data-testid="item"
-      onClick={(): void => navigation(`../frontpage=${page}&details=${id}`)}
+      /* onClick={(): void =>
+         router.push(`../frontpage=${page}&details=${product.id}`)
+      } */
     >
-      <img className="list__card-img" src={src} alt="item-img" />
-      <div className="list__card-content">
-        <h2 className="list__card-title">{title}</h2>
-        <p className="list__card-price">{price}$</p>
-        <p className="list__card-rating">Rating: {rating}</p>
-        <p className="list__card-brand">Brand: {brand}</p>
-        <p className="list__card-text">{description}</p>
+      <Image
+        className={styles.cardImg}
+        width={200}
+        height={200}
+        src={product.images[0]}
+        alt="item-img"
+      />
+      <div className={styles.cardContent}>
+        <h2 className={styles.cardTitle}>{product.title}</h2>
+        <p className={styles.cardPrice}>{product.price}$</p>
+        <p className={styles.cardRating}>Rating: {product.rating}</p>
+        <p className={styles.cardBrand}>Brand: {product.brand}</p>
+        <p className={styles.cardText}>{product.description}</p>
       </div>
     </button>
   );

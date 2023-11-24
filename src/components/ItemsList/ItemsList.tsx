@@ -1,30 +1,26 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { RootState } from '../../redux/store';
+import { useRouter } from 'next/router';
 import ItemCard from '../ItemCard/ItemCard';
 import Loader from '../Loader/Loader';
-import ErrorBoundary from '../ErrorBoundary/ErrorBoundary';
 import Pagination from '../Pagination/Pagination';
-import { ProductType } from '../../types/types';
+import styles from '../ItemCard/ItemCard.module.scss';
+import { RootState } from '../../redux/store';
+import { ProductType, ResponseType } from '../../types/types';
 import useActions from '../../redux/hooks/useActions';
-import { useGetPoductsQuery } from '../../api/api';
 
-const ItemsList = (): JSX.Element => {
-  const { pageNumber } = useParams();
+const ItemsList = (props: { data: ResponseType | undefined }): JSX.Element => {
+  const router = useRouter();
+  const { pageNumber } = router.query;
   const { setNewPage, setLastPage, setLoadingPage } = useActions();
   const { page } = useSelector((state: RootState) => state.page);
   const limit = useSelector((state: RootState) => state.limit);
-  const searchValue = useSelector((state: RootState) => state.searchValue);
   const isLoading = useSelector((state: RootState) => state.isLoadingPage);
-  const { data, isFetching } = useGetPoductsQuery({
-    value: searchValue,
-    limit,
-    page: pageNumber ? Number(pageNumber) : page,
-  });
+  const { data } = props;
+  const searchValue = useSelector((state: RootState) => state.searchValue);
 
   useEffect(() => {
-    setLoadingPage(isFetching);
+    setLoadingPage(false);
     if (data) {
       const pageLast = Math.ceil(data.total / limit);
       setLastPage(pageLast);
@@ -32,35 +28,24 @@ const ItemsList = (): JSX.Element => {
     if (pageNumber) {
       setNewPage(Number(pageNumber));
     }
-  }, [data, pageNumber, page, isFetching]);
-
-  console.log(isLoading);
+  }, [data, pageNumber, page, isLoading, limit, searchValue]);
 
   return (
-    <section className="list-container">
+    <section className={styles.listContainer}>
       {isLoading ? (
         <Loader data-testid="loader-1" />
       ) : data?.products?.length ? (
         <>
           <Pagination />
-          <div className="list">
+          <div className={styles.list}>
             {data.products &&
               data.products.map((product: ProductType) => (
-                <ItemCard
-                  key={product.id}
-                  id={product.id}
-                  src={product.images[0]}
-                  title={product.title}
-                  description={product.description}
-                  price={product.price}
-                  rating={product.rating}
-                  brand={product.brand}
-                />
+                <ItemCard key={product.id} product={product} />
               ))}
           </div>
         </>
       ) : (
-        <p className="list__not-found">Nothing found!</p>
+        <p className={styles.notFound}>Nothing found!</p>
       )}
     </section>
   );

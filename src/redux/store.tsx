@@ -4,6 +4,7 @@ import {
   PreloadedState,
 } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
+import { createWrapper } from 'next-redux-wrapper';
 import { reducer as searchValueReducer } from './searchValue/searchValue.slice';
 import { reducer as limitReducer } from './limit/limit.slice';
 import { reducer as pageReducer } from './page/page.slice';
@@ -20,12 +21,13 @@ const reducers = combineReducers({
   [api.reducerPath]: api.reducer,
 });
 
-export const store = configureStore({
-  reducer: reducers,
-  devTools: true,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(api.middleware),
-});
+export const makeStore = () =>
+  configureStore({
+    reducer: reducers,
+    devTools: true,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(api.middleware),
+  });
 
 export const setupStore = (preloadedState?: PreloadedState<RootReducer>) => {
   return configureStore({
@@ -39,10 +41,13 @@ export const setupStore = (preloadedState?: PreloadedState<RootReducer>) => {
   });
 };
 
+export const store = makeStore();
+
 export type RootState = ReturnType<typeof store.getState>;
 export type RootReducer = ReturnType<typeof reducers>;
-export type AppStore = ReturnType<typeof setupStore>;
-
-export type AppDispatch = typeof store.dispatch;
+export type AppStoreTest = ReturnType<typeof setupStore>;
+export type AppStore = ReturnType<typeof makeStore>;
 
 setupListeners(store.dispatch);
+
+export const wrapper = createWrapper<AppStore>(makeStore, { debug: true });

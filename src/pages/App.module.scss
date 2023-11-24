@@ -23,8 +23,8 @@
 .page {
   width: 100%;
   display: flex;
-  &__container {
-    width: 100%;
-    padding: 50px 0;
-  }
+}
+.pageContainer {
+  width: 100%;
+  padding: 50px 0;
 }

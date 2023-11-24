@@ -1,9 +1,12 @@
 import React from 'react';
-import './Loader.scss';
+import Image from 'next/image';
+import styles from './Loader.module.scss';
 import loader from '../../assets/loader.gif';
 
 const Loader = (): JSX.Element => {
-  return <img className="loader" width="80px" src={loader} alt="loader" />;
+  return (
+    <Image className={styles.loader} width="80" src={loader} alt="loader" />
+  );
 };
 
 export default Loader;
