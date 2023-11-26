@@ -1,9 +1,7 @@
-import React, { Suspense, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import React, { Suspense, useState } from 'react';
 import { InferGetServerSidePropsType } from 'next';
-import { useParams, usePathname, useSearchParams } from 'next/navigation';
-import { useSelector } from 'react-redux';
-import { RootState, wrapper } from '../redux/store';
+import { useSearchParams } from 'next/navigation';
+import { wrapper } from '../redux/store';
 import api, { getPoducts, getProduct } from '../api/api';
 import Loader from '../components/Loader/Loader';
 import ItemsList from '../components/ItemsList/ItemsList';

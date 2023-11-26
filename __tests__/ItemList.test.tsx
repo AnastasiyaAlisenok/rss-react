@@ -1,8 +1,3 @@
-import React, {
-  ClassAttributes,
-  DetailedHTMLProps,
-  ImgHTMLAttributes,
-} from 'react';
 import '@testing-library/jest-dom';
 import { screen, waitFor } from '@testing-library/react';
 import { data, nullData } from '../src/tests-helpers/data';
