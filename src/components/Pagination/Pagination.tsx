@@ -20,15 +20,17 @@ const Pagination = (): JSX.Element => {
   const router = useRouter();
 
   useEffect(() => {
-    setNewPage(pageNumber);
+    if (pageNumber > 0) {
+      setNewPage(pageNumber);
+    }
     if (frontpage) {
       setNewPage(frontpage);
     }
   }, [pageNumber, frontpage]);
 
-  const createPageURL = (pageNumb: number | string) => {
+  const createPageURL = (value: number | string) => {
     const params = new URLSearchParams(searchParams);
-    params.set('page', pageNumb.toString());
+    params.set('page', value.toString());
     params.set('query', searchValue);
     params.set('limit', limit.toString());
     router.push(`${pathname}?${params.toString()}`);
@@ -38,6 +40,12 @@ const Pagination = (): JSX.Element => {
     decrement();
     createPageURL(page - 1);
   };
+
+  const clickNext = (): void => {
+    increment();
+    createPageURL(page + 1);
+  };
+
   const isDisableFirstPage = (): boolean => {
     if (page === firstPage || Number(pageNumber) === firstPage) {
       return true;
@@ -64,10 +72,7 @@ const Pagination = (): JSX.Element => {
       <button
         className={`button ${styles.btn}`}
         type="button"
-        onClick={(): void => {
-          increment();
-          createPageURL(page + 1);
-        }}
+        onClick={clickNext}
         disabled={isDisableLastPage()}
         data-testid="btn-next"
       >{`>`}</button>

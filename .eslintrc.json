@@ -74,7 +74,9 @@
     "no-param-reassign": "off",
     "react/jsx-props-no-spreading": "off",
     "consistent-return": "off",
-    "react/require-default-props": "off"
+    "react/require-default-props": "off",
+    "global-require": "off",
+    "import/no-extraneous-dependencies": ["off", {"devDependencies": ["**/*.test.js", "**/*.spec.js"]}]
 },
 "ignorePatterns": [
     "tsconfig.json",
@@ -86,6 +88,8 @@
     "jest.config.js",
     "setupTest.ts",
     "__mocks__/handlers.tsx",
-    "__mocks__/mswServer.tsx"
+    "__mocks__/mswServer.tsx",
+    "__mocks__/imageMock.js",
+    "next.config.js"
 ]
 }

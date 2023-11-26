@@ -5,8 +5,6 @@ import { useRouter } from 'next/router';
 import { ProductType } from '@/src/types/types';
 import styles from './DetailBlock.module.scss';
 import Loader from '../Loader/Loader';
-import { useGetProductQuery } from '../../api/api';
-import useActions from '../../redux/hooks/useActions';
 import { RootState } from '../../redux/store';
 
 const DetailBlock = (props: {
@@ -49,7 +47,7 @@ const DetailBlock = (props: {
           <button
             className={styles.overlay}
             type="button"
-            onClick={(): void => router.back()}
+            onClick={() => router.back()}
           >{` `}</button>
         </>
       )}

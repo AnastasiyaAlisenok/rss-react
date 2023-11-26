@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { usePathname, useSearchParams } from 'next/navigation';
 import styles from './Search.module.scss';
-import searchIcon from '../../assets/search.svg';
 import { RootState } from '../../redux/store';
 import useActions from '../../redux/hooks/useActions';
 
@@ -56,7 +54,9 @@ const Search = (): JSX.Element => {
           clickButton(value);
         }}
       >
-        <Image className={styles.icon} src={searchIcon} alt="search-icon" />
+        <picture>
+          <div className={styles.icon} data-testid="search-icon" />
+        </picture>
       </button>
     </form>
   );

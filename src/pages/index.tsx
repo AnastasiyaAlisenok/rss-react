@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { InferGetServerSidePropsType } from 'next';
 import { useParams, usePathname, useSearchParams } from 'next/navigation';
@@ -43,7 +43,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
 
     return {
       props: {
-        products: data,
+        products: data.data,
         product: productInfo,
       },
     };
@@ -80,9 +80,13 @@ const MainPage = ({
               Get error
             </button>
           </div>
-          <ItemsList data={products.data} />
+          <ItemsList data={products} />
         </div>
-        {details && <DetailBlock product={product?.data} />}
+        {details && (
+          <Suspense fallback={<Loader />}>
+            <DetailBlock product={product?.data} />
+          </Suspense>
+        )}
       </div>
     )
   );

@@ -1,5 +1,4 @@
 import { useSelector } from 'react-redux';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { ProductType } from '@/src/types/types';
 import { usePathname, useSearchParams } from 'next/navigation';
@@ -34,14 +33,16 @@ const ItemCard: React.FC<ItemCardProps> = ({ product }): JSX.Element => {
         router.push(`${pathname}?${params.toString()}`);
       }}
     >
-      <Image
-        className={styles.cardImg}
-        width={298}
-        height={200}
-        src={product.images[0]}
-        alt="item-img"
-        priority
-      />
+      <picture>
+        <img
+          className={styles.cardImg}
+          width={298}
+          height={200}
+          src={product.images[0]}
+          alt="item-img"
+        />
+      </picture>
+
       <div className={styles.cardContent}>
         <h2 className={styles.cardTitle}>{product.title}</h2>
         <p className={styles.cardPrice}>{product.price}$</p>
