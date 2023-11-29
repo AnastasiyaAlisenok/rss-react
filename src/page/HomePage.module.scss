@@ -1,28 +1,28 @@
 .homeContainer {
-    width: 98%;
-    margin: 0 auto;
+  width: 98%;
+  margin: 0 auto;
 }
 
 .title {
-    width: 100%;
-    text-align: center;
-    margin-top: 60px;
-    margin-bottom: 60px;
+  width: 100%;
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
 }
 
 .linkContainer {
-    width: 45%;
-    display: flex;
-    justify-content: space-between;
-    margin: 0 auto;
+  width: 45%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
 }
 
 .link {
-    cursor: pointer;
-    text-align: center;
-    &:hover {
-        border-color: #c7c7c7;
-        color: #c7c7c7;
-        transition: .3s;
-    }
+  cursor: pointer;
+  text-align: center;
+  &:hover {
+    border-color: #c7c7c7;
+    color: #c7c7c7;
+    transition: 0.3s;
+  }
 }
