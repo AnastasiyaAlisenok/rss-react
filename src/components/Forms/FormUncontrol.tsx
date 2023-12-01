@@ -1,12 +1,13 @@
-import { useRef, MutableRefObject } from 'react';
+import { useRef, MutableRefObject, useState } from 'react';
 import Select from '../Select/Select';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { countriesOptions, genderOptions } from '../Select/options';
+import { genderOptions } from '../Select/options';
 import styles from './Form.module.scss';
 import FormLineUncontrol from '../FormLine/FormLineUncontrol';
 import { actions } from '../../redux/Form.slice';
 import { RootState } from '../../redux/store';
+import SelectCountry from '../Select/SelectCountry';
 
 const FormUncontrol = (): React.ReactElement => {
   const nameRef = useRef<HTMLInputElement>();
@@ -15,8 +16,9 @@ const FormUncontrol = (): React.ReactElement => {
   const passwordRef = useRef<HTMLInputElement>();
   const passwordConfirmRef = useRef<HTMLInputElement>();
   const genderRef = useRef<HTMLSelectElement>();
-  const countryRef = useRef<HTMLSelectElement>();
+  const countryRef = useRef<HTMLInputElement>();
   const checkedRef = useRef<HTMLInputElement>();
+  const [country, setCountry] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const data = useSelector((state: RootState) => state.formData);
@@ -74,10 +76,11 @@ const FormUncontrol = (): React.ReactElement => {
           options={genderOptions}
           refValue={genderRef as MutableRefObject<HTMLSelectElement>}
         />
-        <Select
+        <SelectCountry
           text="Choose your country"
-          options={countriesOptions}
-          refValue={countryRef as MutableRefObject<HTMLSelectElement>}
+          refValue={countryRef}
+          value={country}
+          setValue={setCountry}
         />
         <FormLineUncontrol
           type="checkbox"

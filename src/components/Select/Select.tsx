@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, MutableRefObject } from 'react';
 import styles from './Select.module.scss';
 
-interface ISelectType {
+export interface ISelectType {
   text: string;
   options: string[];
   value?: string;

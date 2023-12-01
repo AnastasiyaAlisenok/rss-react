@@ -26,6 +26,9 @@ const FormLineUncontrol = (props: IformLineType): React.ReactElement => {
             ? `${styles.lineFile}`
             : `${styles.lineInput}`
         }
+        accept={
+          props.type === 'file' ? 'image/jpeg, image/jpeg, image/png' : ''
+        }
         type={props.type}
         placeholder={props.text}
         ref={props.value as MutableRefObject<HTMLInputElement>}

@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import Select from '../Select/Select';
-import { countriesOptions, genderOptions } from '../Select/options';
+import { genderOptions } from '../Select/options';
 import styles from './Form.module.scss';
 import FormLineHooks from '../FormLine/FormLineHook';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions } from '../../redux/Form.slice';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../redux/store';
+import SelectCountry from '../Select/SelectCountry';
 
 const FormHooks = (): React.ReactElement => {
   const [userName, setUserName] = useState('');
@@ -74,9 +75,8 @@ const FormHooks = (): React.ReactElement => {
           value={gender}
           setValue={setGender}
         />
-        <Select
+        <SelectCountry
           text="Choose your country"
-          options={countriesOptions}
           value={country}
           setValue={setCountry}
         />
