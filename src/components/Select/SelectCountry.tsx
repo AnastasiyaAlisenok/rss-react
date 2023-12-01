@@ -1,6 +1,8 @@
 import { Dispatch, MutableRefObject, SetStateAction, useState } from 'react';
-import { countriesOptions } from './options';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './SelectCountry.module.scss';
+import { actions } from '../../redux/Countries.slice';
+import { RootState } from '../../redux/store';
 
 interface ISelectCountryType {
   text: string;
@@ -13,16 +15,15 @@ interface ISelectCountryType {
     | undefined;
 }
 
-const countriesLabelsArr = [...countriesOptions];
-
 const SelectCountry = (props: ISelectCountryType): React.ReactElement => {
   const [isShownCountries, setShownCountries] = useState(false);
-  const [countryLabels, setCountryLabels] = useState(countriesLabelsArr);
+  const dispatch = useDispatch();
+  const countriesArr = useSelector((state: RootState) => state.countriesArr);
+  console.log(countriesArr);
 
   const filtrCountries = (value: string): void => {
-    const arr = [...countriesLabelsArr];
-    const newArr = arr.filter((el) => el.label.toLowerCase().includes(value));
-    setCountryLabels(newArr);
+    dispatch(actions.setCountries());
+    dispatch(actions.filtrCountries(value));
     if (props.setValue) {
       props.setValue(value);
     }
@@ -39,13 +40,16 @@ const SelectCountry = (props: ISelectCountryType): React.ReactElement => {
           value={props.value}
           ref={props.refValue as MutableRefObject<HTMLInputElement>}
           onChange={(event) => filtrCountries(event.target.value)}
-          onClick={() => setShownCountries(true)}
+          onClick={() => {
+            setShownCountries(true);
+            dispatch(actions.setCountries());
+          }}
         />
       </label>
       <div className="flex">
         {isShownCountries && (
           <ul className={styles.optionsList}>
-            {countryLabels.map((option, index) => (
+            {countriesArr.map((option, index) => (
               <li
                 key={index}
                 className={styles.option}
