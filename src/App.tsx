@@ -5,22 +5,15 @@ import {
   createRoutesFromElements,
 } from 'react-router-dom';
 import HomePage from './page/HomePage';
-import Form from './components/Form/Form';
+import FormUncontrol from './components/Forms/FormUncontrol';
+import FormHooks from './components/Forms/FormHooks';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<HomePage />}></Route>
-      <Route
-        path="/uncontrolled_form"
-        element={
-          <Form title="Form - used uncontrolled components" type="uncontrol" />
-        }
-      ></Route>
-      <Route
-        path="/react-hook-form"
-        element={<Form title="Form - used React Hook Form" type="hook-form" />}
-      ></Route>
+      <Route path="/uncontrolled_form" element={<FormUncontrol />}></Route>
+      <Route path="/react-hook-form" element={<FormHooks />}></Route>
     </>
   )
 );
