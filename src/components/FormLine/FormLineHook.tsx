@@ -1,9 +1,13 @@
 import { Dispatch, SetStateAction } from 'react';
+import { UseFormRegister, Path } from 'react-hook-form';
 import styles from './FormLine.module.scss';
+import { FormType } from '../Forms/FormHooks';
 
 interface IformLineType {
+  id: Path<FormType>;
   type: string;
   text: string;
+  register: UseFormRegister<FormType>;
   value?: string;
   checked?: boolean;
   setValue?: Dispatch<SetStateAction<string>>;
@@ -29,6 +33,8 @@ const FormLineHooks = (props: IformLineType): React.ReactElement => {
         placeholder={props.text}
         value={props.value}
         checked={props.checked}
+        required
+        {...props.register(props.id, { value: props.value })}
         onChange={(event) => {
           if (props.setChecked) {
             props.setChecked(!props.checked);
@@ -45,7 +51,6 @@ const FormLineHooks = (props: IformLineType): React.ReactElement => {
       />
 
       {props.type === 'checkbox' && `I accept conditions & terms`}
-      <div></div>
     </label>
   );
 };

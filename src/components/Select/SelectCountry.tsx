@@ -3,8 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './SelectCountry.module.scss';
 import { actions } from '../../redux/Countries.slice';
 import { RootState } from '../../redux/store';
+import { Path, UseFormRegister } from 'react-hook-form';
+import { FormType } from '../Forms/FormHooks';
 
 interface ISelectCountryType {
+  id?: Path<FormType>;
+  register?: UseFormRegister<FormType>;
   text: string;
   value?: string;
   setValue: Dispatch<SetStateAction<string>>;
@@ -30,20 +34,36 @@ const SelectCountry = (props: ISelectCountryType): React.ReactElement => {
   return (
     <div className={styles.container}>
       <label htmlFor="country" className={styles.countryLabel}>
-        <input
-          type="text"
-          id="country"
-          name="country"
-          placeholder={props.text}
-          className={styles.countryInput}
-          value={props.value}
-          ref={props.refValue as MutableRefObject<HTMLInputElement>}
-          onChange={(event) => filtrCountries(event.target.value)}
-          onClick={() => {
-            setShownCountries(true);
-            dispatch(actions.setCountries());
-          }}
-        />
+        {props.id && props.register ? (
+          <input
+            type="text"
+            placeholder={props.text}
+            className={styles.countryInput}
+            value={props.value}
+            {...(props.register as UseFormRegister<FormType>)('country', {
+              value: props.value,
+            })}
+            ref={props.refValue as MutableRefObject<HTMLInputElement>}
+            onChange={(event) => filtrCountries(event.target.value)}
+            onClick={() => {
+              setShownCountries(true);
+              dispatch(actions.setCountries());
+            }}
+          />
+        ) : (
+          <input
+            type="text"
+            placeholder={props.text}
+            className={styles.countryInput}
+            value={props.value}
+            ref={props.refValue as MutableRefObject<HTMLInputElement>}
+            onChange={(event) => filtrCountries(event.target.value)}
+            onClick={() => {
+              setShownCountries(true);
+              dispatch(actions.setCountries());
+            }}
+          />
+        )}
       </label>
       <div className="flex">
         {isShownCountries && (
@@ -66,7 +86,6 @@ const SelectCountry = (props: ISelectCountryType): React.ReactElement => {
           </ul>
         )}
       </div>
-      <div></div>
     </div>
   );
 };
