@@ -19,7 +19,6 @@ const SelectCountry = (props: ISelectCountryType): React.ReactElement => {
   const [isShownCountries, setShownCountries] = useState(false);
   const dispatch = useDispatch();
   const countriesArr = useSelector((state: RootState) => state.countriesArr);
-  console.log(countriesArr);
 
   const filtrCountries = (value: string): void => {
     dispatch(actions.setCountries());

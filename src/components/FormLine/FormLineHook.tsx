@@ -8,6 +8,7 @@ interface IformLineType {
   checked?: boolean;
   setValue?: Dispatch<SetStateAction<string>>;
   setChecked?: Dispatch<SetStateAction<boolean>>;
+  setImageSrc?: Dispatch<SetStateAction<File | undefined>>;
 }
 
 const FormLineHooks = (props: IformLineType): React.ReactElement => {
@@ -33,6 +34,12 @@ const FormLineHooks = (props: IformLineType): React.ReactElement => {
             props.setChecked(!props.checked);
           } else if (props.setValue) {
             props.setValue(event.target.value);
+          }
+          if (props.type === 'file' && props.setImageSrc) {
+            const file = event.target.files && event.target.files[0];
+            if (file) {
+              props.setImageSrc(file);
+            }
           }
         }}
       />

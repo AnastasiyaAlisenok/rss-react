@@ -8,6 +8,7 @@ import { actions } from '../../redux/Form.slice';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../../redux/store';
 import SelectCountry from '../Select/SelectCountry';
+import { convertImageToBase64 } from '../utils/convertImageToBase64';
 
 const FormHooks = (): React.ReactElement => {
   const [userName, setUserName] = useState('');
@@ -18,31 +19,35 @@ const FormHooks = (): React.ReactElement => {
   const [isChecked, setChecked] = useState(false);
   const [gender, setGender] = useState('');
   const [country, setCountry] = useState('');
+  const [imageSrc, setImageSrc] = useState<File>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const data = useSelector((state: RootState) => state.formData);
 
   console.log(data);
 
-  const submitForm = (): void => {
-    dispatch(
-      actions.setFormData({
-        name: userName,
-        age,
-        email,
-        password,
-        gender,
-        accept: isChecked,
-        image: '',
-        country,
-      })
-    );
-    navigate('/');
+  const submitForm = async (): Promise<void> => {
+    if (imageSrc) {
+      const base64Image = await convertImageToBase64(imageSrc);
+      dispatch(
+        actions.setFormData({
+          name: userName,
+          age,
+          email,
+          password,
+          gender,
+          accept: isChecked,
+          image: base64Image,
+          country,
+        })
+      );
+      navigate('/');
+    }
   };
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Form - used uncontrolled components</h2>
-      <form className={styles.form}>
+      <form className={styles.form} noValidate>
         <FormLineHooks
           type="text"
           text="Name"
@@ -68,7 +73,7 @@ const FormHooks = (): React.ReactElement => {
           value={confirmPassword}
           setValue={setConfirmPassword}
         />
-        <FormLineHooks type="file" text=" " />
+        <FormLineHooks type="file" text=" " setImageSrc={setImageSrc} />
         <Select
           text="Choose your gender"
           options={genderOptions}

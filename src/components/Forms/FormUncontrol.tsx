@@ -44,7 +44,7 @@ const FormUncontrol = (): React.ReactElement => {
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Form - used uncontrolled components</h2>
-      <form className={styles.form}>
+      <form className={styles.form} noValidate>
         <FormLineUncontrol
           type="text"
           text="Name"

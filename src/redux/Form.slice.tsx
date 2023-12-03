@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-interface FormState {
+export interface FormState {
   name: string;
   age: number | null;
   email: string;
