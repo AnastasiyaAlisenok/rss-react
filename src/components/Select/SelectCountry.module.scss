@@ -1,0 +1,31 @@
+.container {
+  width: 45%;
+  margin-bottom: 5px;
+}
+.countryLabel {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+.countryInput {
+    width: 96%;
+    padding: 5px;
+}
+.optionsList {
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+}
+.option {
+    text-align: center;
+    list-style-type: none;
+    font-size: 1rem;
+    color: #000;
+    font-size: 1.2rem;
+    margin: 0 auto;
+    margin-bottom: 5px;
+    &:hover {
+      cursor: pointer;
+      background-color: #b8b8b8;
+    }
+  }

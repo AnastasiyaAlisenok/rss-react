@@ -1,0 +1,35 @@
+.homeContainer {
+  width: 98%;
+  margin: 0 auto;
+}
+
+.title {
+  width: 100%;
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+.linkContainer {
+  width: 45%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  margin-bottom: 60px;
+}
+
+.link {
+  cursor: pointer;
+  text-align: center;
+  &:hover {
+    border-color: #c7c7c7;
+    color: #c7c7c7;
+    transition: 0.3s;
+  }
+}
+.card {
+    display: flex;
+    width: 95%;
+    margin: 0 auto;
+    gap: 30px;
+}
